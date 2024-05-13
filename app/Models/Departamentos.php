@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Paises;
+use App\Models\Municipios;
 
 class Departamentos extends Model
 {
@@ -25,5 +26,10 @@ class Departamentos extends Model
     public function pais()
     {
         return $this->belongsTo(Paises::class, 'idPais', 'idPais');
+    }
+
+    public function municipios()
+    {
+        return $this->hasMany(Municipios::class, 'codDepartamento', 'codDepartamento');
     }
 }

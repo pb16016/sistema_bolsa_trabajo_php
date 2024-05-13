@@ -9,54 +9,22 @@ class EstadoCivilController extends Controller
 {
     public function getAll()
     {
-        $estadoCivil = EstadoCivil::all();
-        return view('estadocivil', compact('estadoCivil'));
+        try {
+            $estadoCivil = EstadoCivil::all();
+            return response()->json($estadoCivil);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener los registros. Detalles: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function create()
+    public function findByCod($codEstadoCivil)
     {
-        return view('estadocivil.create');
+        try {
+            $estadoCivil = EstadoCivil::findOrFail($codEstadoCivil);
+            return response()->json($estadoCivil);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Estado civil no encontrado. Detalles: ', 'error' => $e->getMessage()], 404);
+        }
     }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'codEstadoCivil' => 'required|unique:estadocivil|max:3',
-            'EstadoCivil' => 'required|max:15',
-        ]);
-
-        EstadosCivil::create($request->all());
-
-        return redirect()->route('estadocivil')
-                        ->with('success', 'Estado civil creado exitosamente.');
-    }
-
-    public function edit($id)
-    {
-        $estadoCivil = EstadosCivil::findOrFail($id);
-        return view('estadocivil.edit', compact('estadoCivil'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'EstadoCivil' => 'required|max:15',
-        ]);
-
-        $estadoCivil = EstadosCivil::findOrFail($id);
-        $estadoCivil->update($request->all());
-
-        return redirect()->route('estadocivil')
-                        ->with('success', 'Estado civil actualizado exitosamente.');
-    }
-
-    public function destroy($id)
-    {
-        $estadoCivil = EstadosCivil::findOrFail($id);
-        $estadoCivil->delete();
-
-        return redirect()->route('estadocivil')
-                        ->with('success', 'Estado civil eliminado exitosamente.');
-    }
-
 }

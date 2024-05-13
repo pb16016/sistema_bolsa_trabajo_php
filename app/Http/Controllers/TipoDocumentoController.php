@@ -2,63 +2,76 @@
 
 namespace App\Http\Controllers;
 use App\Models\TipoDocumento;
-
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class TipoDocumentoController extends Controller
 {
     public function getAll()
     {
-        $tipoDocumento = TipoDocumento::all();
-        return view('tipo_documento', compact('tipoDocumento'));
+        try {
+            $tipoDocumento = TipoDocumento::all();
+            return response()->json($tipoDocumento);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener los registros. Detalles: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function create()
+    public function findByCod($idTipoDocumento)
     {
-        return view('tipo_documento.create');
+        try {
+            $tipoDocumento = TipoDocumento::findOrFail($idTipoDocumento);
+            return response()->json($tipoDocumento);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Tipo de documento no encontrado. Detalles: ', 'error' => $e->getMessage()], 404);
+        }
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'idTipoDocumento' => 'required|unique:tipo_documento|max:3',
-            'tipoDocumento' => 'required|max:15',
-            'descripcion' => 'max:250',
-        ]);
+        try {
+            $request->validate([
+                'idTipoDocumento' => 'required|unique:tipodocumento|max:3',
+                'tipoDocumento' => 'required|max:15',
+                'descripcion' => 'max:250',
+            ]);
+            $tipoDocumento = TipoDocumento::create($request->all());
 
-        TipoDocumento::create($request->all());
-
-        return redirect()->route('tipo_documento')
-                        ->with('success', 'Tipo de documento creado exitosamente.');
+            return response()->json(['message' => 'Tipo de documento creado exitosamente.', 'data' => $tipoDocumento], 201);
+        } catch (QueryException $e) {
+            return response()->json(['message' => 'Error al crear el tipo de documento.', 'error' => $e->getMessage()], 500);
+        }
     }
 
-    public function edit($id)
+    public function update(Request $request, $idTipoDocumento)
     {
-        $tipoDocumento = TipoDocumento::findOrFail($id);
-        return view('tipo_documento.edit', compact('tipoDocumento'));
+        try {
+            $request->validate([
+                'tipoDocumento' => 'required|max:15',
+                'descripcion' => 'max:250',
+            ]);
+
+            $tipoDocumento = TipoDocumento::findOrFail($idTipoDocumento);
+            $tipoDocumento->update($request->all());
+
+            return response()->json(['message' => 'Tipo de documento actualizado exitosamente.', 'data' => $tipoDocumento]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Ha ocurrido un error al actualizar el tipo de documento. Detalles: ' . $e->getMessage()], 500);
+        }
     }
 
-    public function update(Request $request, $id)
+    public function destroy($idTipoDocumento)
     {
-        $request->validate([
-            'tipoDocumento' => 'required|max:15',
-            'descripcion' => 'max:250',
-        ]);
-
-        $tipoDocumento = TipoDocumento::findOrFail($id);
-        $tipoDocumento->update($request->all());
-
-        return redirect()->route('tipo_documento')
-                        ->with('success', 'Tipo de documento actualizado exitosamente.');
-    }
-
-    public function destroy($id)
-    {
-        $tipoDocumento = TipoDocumento::findOrFail($id);
-        $tipoDocumento->delete();
-
-        return redirect()->route('tipo_documento.delete')
-                        ->with('success', 'Tipo de documento eliminado exitosamente.');
+        try {
+            $tipoDocumento = TipoDocumento::findOrFail($idTipoDocumento);
+            $tipoDocumento->delete();
+    
+            return response()->json(['message' => 'Tipo de documento eliminado exitosamente.']);
+        } catch (\Exception $e) {
+            // Manejo de la excepción
+            return response()->json(['error' => 'Ha ocurrido un error al eliminar el tipo de documento. Detalles: ' . $e->getMessage()], 500);
+        }
     }
 
 }

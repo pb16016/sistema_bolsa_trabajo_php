@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Departamentos;
 
 class Municipios extends Model
 {
@@ -24,6 +25,7 @@ class Municipios extends Model
 
     public function departamento()
     {
-        return $this->belongsTo(Departamento::class, 'codDepartamento', 'codDepartamento');
+        return $this->belongsTo(Departamentos::class, 'codDepartamento', 'codDepartamento');
     }
+
 }
