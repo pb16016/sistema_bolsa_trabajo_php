@@ -20,7 +20,7 @@ class EstadoCivil extends Model
     ];
 
     protected $casts = [
-        'codEstadoCivil' => 'string',
+        'codEstadoCivil' => 'string'
     ];
 
     public function persona()

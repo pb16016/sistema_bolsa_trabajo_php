@@ -47,7 +47,7 @@ class CargosController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $idCargo)
     {
         try {
             $request->validate([
@@ -55,7 +55,7 @@ class CargosController extends Controller
                 'descripcion' => 'max:250',
             ]);
 
-            $cargo = Cargos::findOrFail($id);
+            $cargo = Cargos::findOrFail($idCargo);
             $cargo->update($request->all());
 
             return response()->json(['message' => 'Cargo actualizado exitosamente.', 'data' => $cargo]);
@@ -66,10 +66,10 @@ class CargosController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($idCargo)
     {
         try {
-            $cargo = Cargos::findOrFail($id);
+            $cargo = Cargos::findOrFail($idCargo);
             $cargo->delete();
 
             return response()->json(['message' => 'Cargo eliminado exitosamente.']);

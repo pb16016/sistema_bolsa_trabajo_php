@@ -46,7 +46,7 @@ class ProfesionesController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $idProfesion)
     {
         try {
             $request->validate([
@@ -54,7 +54,7 @@ class ProfesionesController extends Controller
                 'idCargo' => 'required|exists:cargos,idCargo',
             ]);
 
-            $profesion = Profesiones::findOrFail($id);
+            $profesion = Profesiones::findOrFail($idProfesion);
             $profesion->update($request->all());
 
             return response()->json(['message' => 'Profesión actualizada exitosamente.', 'data' => $profesion]);
@@ -67,10 +67,10 @@ class ProfesionesController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($idProfesion)
     {
         try {
-            $profesion = Profesiones::findOrFail($id);
+            $profesion = Profesiones::findOrFail($idProfesion);
             $profesion->delete();
 
             return response()->json(['message' => 'Profesión eliminada exitosamente.']);

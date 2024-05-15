@@ -8,6 +8,7 @@ use App\Models\TipoDocumento;
 use App\Models\Profesiones;
 use App\Models\EstadoCivil;
 use App\Models\Direccion;
+use App\Models\DocumentosEntidad;
 
 class Persona extends Model
 {
@@ -38,7 +39,7 @@ class Persona extends Model
     ];
 
     protected $casts = [
-        'numDocumento' => 'string',
+        'numDocumento' => 'string'
     ];
 
     public function tipoDocumento()
@@ -59,5 +60,15 @@ class Persona extends Model
     public function direccion()
     {
         return $this->belongsTo(Direccion::class, 'idDireccion', 'idDireccion');
+    }
+
+    public function documentoEntidad()
+    {
+        return $this->belongsTo(DocumentosEntidad::class, 'numDocumento', 'numDocumento');
+    }
+
+    public function redesSociales()
+    {
+        return $this->belongsTo(RedesSociales::class, 'numDocumento', 'numDocumento');
     }
 }

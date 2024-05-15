@@ -20,7 +20,7 @@ class Departamentos extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'codDepartamento' => 'string',
+        'codDepartamento' => 'string'
     ];
 
     public function pais()

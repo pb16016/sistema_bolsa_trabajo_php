@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Telefonos;
 
 class TipoTelefono extends Model
 {
@@ -16,4 +17,9 @@ class TipoTelefono extends Model
     protected $fillable = [
         'tipoTelefono',
     ];
+
+    public function telefonos()
+    {
+        return $this->hasMany(Telefonos::class, 'idTipoTelefono', 'idTipoTelefono');
+    }
 }

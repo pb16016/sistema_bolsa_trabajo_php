@@ -20,7 +20,7 @@ class TipoDocumento extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'idTipoDocumento' => 'string',
+        'idTipoDocumento' => 'string'
     ];
 
     public function persona()

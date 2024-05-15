@@ -16,6 +16,8 @@ use App\Http\Controllers\EstadosController;
 use App\Http\Controllers\CategoriaNivelController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\TelefonosController;
+use App\Http\Controllers\RedesSocialesController;
 
 
 //Views locales
@@ -25,17 +27,11 @@ Route::get('/', function () {
 });
 
 #Route::get('/tipo_documento', [TipoDocumentoController::class, 'getAll'])->name('tipo_documento');
-
 #Route::get('/estadocivil', [EstadoCivilController::class, 'getAll'])->name('estadocivil');
-
 #Route::get('/paises', [PaisesController::class, 'getAll'])->name('paises');
-
 #Route::get('/paises/departamentos', [DepartamentosController::class, 'getAll'])->name('departamentos');
-
 #Route::get('/paises/departamentos/municipios', [MunicipiosController::class, 'getAll'])->name('municipios');
-
 #Route::get('/paises/{paisId}/departamentos', [PaisesController::class, 'getDepartments']);
-
 #Route::get('/departamentos/{codDepartamento}/municipios', [DepartamentosController::class, 'getMunicipalities'])->where('codDepartamento', '[A-Za-z0-9]+');
 
 
@@ -114,6 +110,8 @@ Route::prefix('api')->group(function () {
     Route::get('/persona/estado_civil', [PersonaController::class, 'getEstadoCivil']);
     Route::get('/persona/profesion', [PersonaController::class, 'getProfesion']);
     Route::get('/persona/direccion', [PersonaController::class, 'getDireccion']);
+    Route::get('/persona/telefonos', [PersonaController::class, 'getTelefonosByNumDoc']);
+    Route::get('/persona/redes_sociales', [PersonaController::class, 'getRedSocByNumDoc']);
     Route::post('/personas', [PersonaController::class, 'store']);
     Route::put('/personas/{numDocumento}', [PersonaController::class, 'update']);
     Route::delete('/personas/{numDocumento}', [PersonaController::class, 'destroy']);
@@ -126,8 +124,23 @@ Route::prefix('api')->group(function () {
     Route::get('/empresa/email', [EmpresaController::class, 'findEmailByNumDoc']);
     Route::get('/empresa/tipo_documento', [EmpresaController::class, 'getTipoDocumento']);
     Route::get('/empresa/direccion', [EmpresaController::class, 'getDireccion']);
+    Route::get('/empresa/telefonos', [EmpresaController::class, 'getTelefonosByNumDoc']);
     Route::post('/empresas', [EmpresaController::class, 'store']);
     Route::put('/empresas/{numDocumento}', [EmpresaController::class, 'update']);
     Route::delete('/empresas/{numDocumento}', [EmpresaController::class, 'destroy']);
 
+    #telefonos
+    Route::get('/telefonos', [TelefonosController::class, 'getAll']);
+    Route::get('/telefono/by_entidad', [TelefonosController::class, 'findByNumDoc']);
+    Route::get('/telefono/by_telefono', [TelefonosController::class, 'findByNumTel']);
+    Route::post('/telefonos', [TelefonosController::class, 'store']);
+    Route::put('/telefonos/{numTelefono}', [TelefonosController::class, 'update']);
+    Route::delete('/telefonos/{numTelefono}', [TelefonosController::class, 'destroy']);
+
+    #redes_sociales
+    Route::get('/redes_sociales', [RedesSocialesController::class, 'getAll']);
+    Route::get('/redes_sociales/by_numdoc', [RedesSocialesController::class, 'findByNumDoc']);
+    Route::post('/redes_sociales', [RedesSocialesController::class, 'store']);
+    Route::put('/redes_sociales/{numDocumento}', [RedesSocialesController::class, 'update']);
+    Route::delete('/redes_sociales/{numDocumento}', [RedesSocialesController::class, 'destroy']);
 });

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\TipoDocumento;
 use App\Models\Direccion;
 use App\Models\Paises;
+use App\Models\DocumentosEntidad;
 
 class Empresa extends Model
 {
@@ -32,7 +33,7 @@ class Empresa extends Model
     ];
 
     protected $casts = [
-        'numDocumento' => 'string',
+        'numDocumento' => 'string'
     ];
 
     // Relación con la entidad Pais
@@ -51,5 +52,10 @@ class Empresa extends Model
     public function tipoDocumento()
     {
         return $this->belongsTo(TipoDocumento::class, 'idTipoDocumento', 'idTipoDocumento');
+    }
+
+    public function documentoEntidad()
+    {
+        return $this->belongsTo(DocumentosEntidad::class, 'numDocumento', 'numDocumento');
     }
 }

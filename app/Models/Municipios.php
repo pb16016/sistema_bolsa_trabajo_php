@@ -20,7 +20,7 @@ class Municipios extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'codMunicipio' => 'string',
+        'codMunicipio' => 'string'
     ];
 
     public function departamento()

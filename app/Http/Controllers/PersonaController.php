@@ -26,6 +26,14 @@ class PersonaController extends Controller
             $persona->estadoCivil;
             $persona->profesion->cargo;
             $persona->direccion->municipio->departamento->pais;
+            $telefonos = $persona->documentoEntidad->telefonos;
+            
+            foreach ($telefonos as $telefono) {
+                $telefono->pais;
+                $telefono->tipoTelefono;
+            }
+
+            $persona->redesSociales;
 
             if ($persona) {
                 return response()->json($persona);
@@ -66,6 +74,14 @@ class PersonaController extends Controller
                 $persona->estadoCivil;
                 $persona->profesion->cargo;
                 $persona->direccion->municipio->departamento->pais;
+                $telefonos = $persona->documentoEntidad->telefonos;
+            
+                foreach ($telefonos as $telefono) {
+                    $telefono->pais;
+                    $telefono->tipoTelefono;
+                }
+
+                $persona->redesSociales;
 
                 return response()->json($persona);
             } else {
@@ -76,6 +92,45 @@ class PersonaController extends Controller
         }
     }
 
+    public function getTelefonosByNumDoc()
+    {
+        try {
+            $numDocumento = request('numDocumento');
+            $persona = Persona::findOrFail($numDocumento);
+            $telefonos = $persona->documentoEntidad->telefonos;
+            
+            foreach ($telefonos as $telefono) {
+                $telefono->pais;
+                $telefono->tipoTelefono;
+            }
+
+            if ($telefonos) {
+                return response()->json($telefonos);
+            } else {
+                return response()->json(['message' => 'Telefonos no encontrados para el número de documento proporcionado.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener los telefónos de la persona. Detalles: ' . $e->getMessage()], 404);
+        }
+    }
+
+    public function getRedSocByNumDoc()
+    {
+        try {
+            $numDocumento = request('numDocumento');
+            $persona = Persona::findOrFail($numDocumento);
+
+            if (!is_null($persona->redesSociales)) {
+                $redesSociales = $persona->redesSociales;
+                return response()->json($redesSociales);
+            } else {
+                return response()->json(['message' => 'Redes sociales no encontrados para el número de documento proporcionado.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener las redes sociales de la persona. Detalles: ' . $e->getMessage()], 404);
+        }
+    }
+
     public function getTipoDocumento()
     {
         try {
@@ -83,7 +138,7 @@ class PersonaController extends Controller
             $persona = Persona::findOrFail($numDocumento);
 
             if (!is_null($persona->tipoDocumento)) {
-                $tipoDocumento = $persona->tipoDocumento()->get();
+                $tipoDocumento = $persona->tipoDocumento;
                 return response()->json($tipoDocumento);
             } else {
                 return response()->json(["message" => "No se encontraron tipo de documentos para esta persona."], 404);
@@ -100,7 +155,7 @@ class PersonaController extends Controller
             $persona = Persona::findOrFail($numDocumento);
             
             if (!is_null($persona->estadoCivil)) {
-                $estadoCivil = $persona->estadoCivil()->get();
+                $estadoCivil = $persona->estadoCivil;
                 return response()->json($estadoCivil);
 
             } else {

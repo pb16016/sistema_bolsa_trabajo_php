@@ -27,6 +27,12 @@ class EmpresaController extends Controller
             $empresa = Empresa::findOrFail($numDocumento);
             $empresa->tipoDocumento;
             $empresa->direccion->municipio->departamento->pais;
+            $telefonos = $empresa->documentoEntidad->telefonos;
+            
+            foreach ($telefonos as $telefono) {
+                $telefono->pais;
+                $telefono->tipoTelefono;
+            }
 
             if ($empresa) {
                 return response()->json($empresa);
@@ -67,6 +73,12 @@ class EmpresaController extends Controller
             if ($empresa) {
                 $empresa->tipoDocumento;
                 $empresa->direccion->municipio->departamento->pais;
+                $telefonos = $empresa->documentoEntidad->telefonos;
+            
+                foreach ($telefonos as $telefono) {
+                    $telefono->pais;
+                    $telefono->tipoTelefono;
+                }
 
                 return response()->json($empresa);
             } else {
@@ -86,6 +98,12 @@ class EmpresaController extends Controller
             if ($empresa) {
                 $empresa->tipoDocumento;
                 $empresa->direccion->municipio->departamento->pais;
+                $telefonos = $empresa->documentoEntidad->telefonos;
+            
+                foreach ($telefonos as $telefono) {
+                    $telefono->pais;
+                    $telefono->tipoTelefono;
+                }
 
                 return response()->json($empresa);
             } else {
@@ -93,6 +111,28 @@ class EmpresaController extends Controller
             }
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al buscar empresa por rubro. Detalles: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function getTelefonosByNumDoc()
+    {
+        try {
+            $numDocumento = request('numDocumento');
+            $empresa = Empresa::findOrFail($numDocumento);
+            $telefonos = $empresa->documentoEntidad->telefonos;
+            
+            foreach ($telefonos as $telefono) {
+                $telefono->pais;
+                $telefono->tipoTelefono;
+            }
+
+            if ($telefonos) {
+                return response()->json($telefonos);
+            } else {
+                return response()->json(['message' => 'Telefonos no encontrados para el número de documento proporcionado.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Empresa no encontrada. Detalles: ' . $e->getMessage()], 404);
         }
     }
 
