@@ -44,7 +44,7 @@ class DireccionController extends Controller
             $direccion = Direccion::create($request->all());
 
             return response()->json(['message' => 'Dirección creada exitosamente.', 'data' => $direccion], 201);
-        } catch (QueryException $e) {
+        } catch (\Exception $e) {
             return response()->json(['message' => 'Error al crear la dirección.', 'error' => $e->getMessage()], 500);
         }
     }

@@ -9,6 +9,8 @@ use App\Models\Profesiones;
 use App\Models\EstadoCivil;
 use App\Models\Direccion;
 use App\Models\DocumentosEntidad;
+use App\Models\RedesSociales;
+use App\Models\CVs;
 
 class Persona extends Model
 {
@@ -70,5 +72,10 @@ class Persona extends Model
     public function redesSociales()
     {
         return $this->belongsTo(RedesSociales::class, 'numDocumento', 'numDocumento');
+    }
+
+    public function CVs()
+    {
+        return $this->hasMany(CVs::class, 'numDocumento', 'numDocumento');
     }
 }

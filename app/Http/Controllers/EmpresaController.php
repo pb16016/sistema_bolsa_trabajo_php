@@ -34,6 +34,16 @@ class EmpresaController extends Controller
                 $telefono->tipoTelefono;
             }
 
+            $perfiles = $empresa->perfilesPuestoTrabajo;
+
+            foreach ($perfiles as $perfilPuesto) {
+                $experienciasReq = $perfilPuesto->experienciasRequeridas;
+
+                foreach ($experienciasReq as $experienciaReq) {
+                    $experienciaReq->cargo;
+                }
+            }
+
             if ($empresa) {
                 return response()->json($empresa);
             } else {
@@ -80,6 +90,16 @@ class EmpresaController extends Controller
                     $telefono->tipoTelefono;
                 }
 
+                $perfiles = $empresa->perfilesPuestoTrabajo;
+
+                foreach ($perfiles as $perfilPuesto) {
+                    $experienciasReq = $perfilPuesto->experienciasRequeridas;
+
+                    foreach ($experienciasReq as $experienciaReq) {
+                        $experienciaReq->cargo;
+                    }
+                }
+
                 return response()->json($empresa);
             } else {
                 return response()->json(['message' => 'Empresa no encontrada para el nombre proporcionado.']);
@@ -105,12 +125,47 @@ class EmpresaController extends Controller
                     $telefono->tipoTelefono;
                 }
 
+                $perfiles = $empresa->perfilesPuestoTrabajo;
+
+                foreach ($perfiles as $perfilPuesto) {
+                    $experienciasReq = $perfilPuesto->experienciasRequeridas;
+
+                    foreach ($experienciasReq as $experienciaReq) {
+                        $experienciaReq->cargo;
+                    }
+                }
+
                 return response()->json($empresa);
             } else {
                 return response()->json(['message' => 'Empresa no encontrada para el rubro proporcionado.']);
             }
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al buscar empresa por rubro. Detalles: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function getPerfilesPuestosByNumDoc()
+    {
+        try {
+            $numDocumento = request('numDocumento');
+            $empresa = Empresa::findOrFail($numDocumento);
+            $perfiles = $empresa->perfilesPuestoTrabajo;
+
+            foreach ($perfiles as $perfilPuesto) {
+                $experienciasReq = $perfilPuesto->experienciasRequeridas;
+
+                foreach ($experienciasReq as $experienciaReq) {
+                    $experienciaReq->cargo;
+                }
+            }
+
+            if ($perfiles) {
+                return response()->json($perfiles);
+            } else {
+                return response()->json(['message' => 'Perfiles de puestos de tarbajo no encontrados para el número de documento proporcionado.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Perfiles de puestos de tarbajo no encontrados. Detalles: ' . $e->getMessage()], 404);
         }
     }
 
@@ -132,7 +187,7 @@ class EmpresaController extends Controller
                 return response()->json(['message' => 'Telefonos no encontrados para el número de documento proporcionado.']);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Empresa no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Telefonos no encontrados. Detalles: ' . $e->getMessage()], 404);
         }
     }
 

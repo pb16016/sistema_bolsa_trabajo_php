@@ -18,6 +18,12 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\TelefonosController;
 use App\Http\Controllers\RedesSocialesController;
+use App\Http\Controllers\ExperienciaRequeridaController;
+use App\Http\Controllers\PerfilPuestoTrabajoController;
+use App\Http\Controllers\OfertaTrabajoController;
+use App\Http\Controllers\CVsController;
+use App\Http\Controllers\SolicitudAspiranteController;
+
 
 
 //Views locales
@@ -25,14 +31,6 @@ use App\Http\Controllers\RedesSocialesController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-#Route::get('/tipo_documento', [TipoDocumentoController::class, 'getAll'])->name('tipo_documento');
-#Route::get('/estadocivil', [EstadoCivilController::class, 'getAll'])->name('estadocivil');
-#Route::get('/paises', [PaisesController::class, 'getAll'])->name('paises');
-#Route::get('/paises/departamentos', [DepartamentosController::class, 'getAll'])->name('departamentos');
-#Route::get('/paises/departamentos/municipios', [MunicipiosController::class, 'getAll'])->name('municipios');
-#Route::get('/paises/{paisId}/departamentos', [PaisesController::class, 'getDepartments']);
-#Route::get('/departamentos/{codDepartamento}/municipios', [DepartamentosController::class, 'getMunicipalities'])->where('codDepartamento', '[A-Za-z0-9]+');
 
 
 //Apis
@@ -112,6 +110,7 @@ Route::prefix('api')->group(function () {
     Route::get('/persona/direccion', [PersonaController::class, 'getDireccion']);
     Route::get('/persona/telefonos', [PersonaController::class, 'getTelefonosByNumDoc']);
     Route::get('/persona/redes_sociales', [PersonaController::class, 'getRedSocByNumDoc']);
+    Route::get('/persona/cvs', [PersonaController::class, 'getCVsByNumDoc']);
     Route::post('/personas', [PersonaController::class, 'store']);
     Route::put('/personas/{numDocumento}', [PersonaController::class, 'update']);
     Route::delete('/personas/{numDocumento}', [PersonaController::class, 'destroy']);
@@ -125,6 +124,7 @@ Route::prefix('api')->group(function () {
     Route::get('/empresa/tipo_documento', [EmpresaController::class, 'getTipoDocumento']);
     Route::get('/empresa/direccion', [EmpresaController::class, 'getDireccion']);
     Route::get('/empresa/telefonos', [EmpresaController::class, 'getTelefonosByNumDoc']);
+    Route::get('/empresa/perfiles_puestos', [EmpresaController::class, 'getPerfilesPuestosByNumDoc']);
     Route::post('/empresas', [EmpresaController::class, 'store']);
     Route::put('/empresas/{numDocumento}', [EmpresaController::class, 'update']);
     Route::delete('/empresas/{numDocumento}', [EmpresaController::class, 'destroy']);
@@ -143,4 +143,42 @@ Route::prefix('api')->group(function () {
     Route::post('/redes_sociales', [RedesSocialesController::class, 'store']);
     Route::put('/redes_sociales/{numDocumento}', [RedesSocialesController::class, 'update']);
     Route::delete('/redes_sociales/{numDocumento}', [RedesSocialesController::class, 'destroy']);
+
+    #exp_requeridas
+    Route::get('/exp_requeridas', [ExperienciaRequeridaController::class, 'getAll']);
+    Route::get('/exp_requerida', [ExperienciaRequeridaController::class, 'findById']);
+    Route::post('/exp_requeridas', [ExperienciaRequeridaController::class, 'store']);
+    Route::put('/exp_requeridas/{idExperienciaRequerida}', [ExperienciaRequeridaController::class, 'update']);
+    Route::delete('/exp_requeridas/{idExperienciaRequerida}', [ExperienciaRequeridaController::class, 'destroy']);
+
+    #perfiles_puestos
+    Route::get('/perfiles_puestos', [PerfilPuestoTrabajoController::class, 'getAll']);
+    Route::get('/perfil_puesto', [PerfilPuestoTrabajoController::class, 'findById']);
+    Route::post('/perfiles_puestos', [PerfilPuestoTrabajoController::class, 'store']);
+    Route::put('/perfiles_puestos/{idPerfilPuesto}', [PerfilPuestoTrabajoController::class, 'update']);
+    Route::delete('/perfiles_puestos/{idPerfilPuesto}', [PerfilPuestoTrabajoController::class, 'destroy']);
+
+    #oferta_laboral
+    Route::get('/ofertas_laborales', [OfertaTrabajoController::class, 'getAll']);
+    Route::get('/oferta_laboral', [OfertaTrabajoController::class, 'findById']);
+    Route::post('/oferta_laboral', [OfertaTrabajoController::class, 'store']);
+    Route::put('/oferta_laboral/{idOfertaLaboral}', [OfertaTrabajoController::class, 'update']);
+    Route::delete('/oferta_laboral/{idOfertaLaboral}', [OfertaTrabajoController::class, 'destroy']);
+
+    #cv
+    Route::get('/cvs', [CVsController::class, 'getAll']);
+    Route::get('/cvs/solicitudes', [CVsController::class, 'getSolicitudesCVsByNumDoc']);
+    Route::get('/cv/by_id', [CVsController::class, 'findById']);
+    Route::post('/cv', [CVsController::class, 'store']);
+    Route::put('/cv/{idCurriculum}', [CVsController::class, 'update']);
+    Route::delete('/cv/{idCurriculum}', [CVsController::class, 'destroy']);
+
+    #soli_aspirante
+    Route::get('/soli_aspirantes', [SolicitudAspiranteController::class, 'getAll']);
+    Route::get('/soli_aspirante/{idCurriculum}/{idOfertaLaboral}', [SolicitudAspiranteController::class, 'findByIds']);
+    Route::post('/soli_aspirante', [SolicitudAspiranteController::class, 'store']);
+    Route::put('/soli_aspirante/{idCurriculum}/{idOfertaLaboral}', [SolicitudAspiranteController::class, 'update']);
+    Route::delete('/soli_aspirante/{idCurriculum}/{idOfertaLaboral}', [SolicitudAspiranteController::class, 'destroy']);
+
+
 });

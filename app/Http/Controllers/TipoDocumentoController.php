@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\TipoDocumento;
+
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use App\Models\TipoDocumento;
 
 class TipoDocumentoController extends Controller
 {
@@ -39,7 +39,7 @@ class TipoDocumentoController extends Controller
             $tipoDocumento = TipoDocumento::create($request->all());
 
             return response()->json(['message' => 'Tipo de documento creado exitosamente.', 'data' => $tipoDocumento], 201);
-        } catch (QueryException $e) {
+        } catch (\Exceptio $e) {
             return response()->json(['message' => 'Error al crear el tipo de documento.', 'error' => $e->getMessage()], 500);
         }
     }

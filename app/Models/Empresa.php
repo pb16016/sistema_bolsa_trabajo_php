@@ -8,6 +8,7 @@ use App\Models\TipoDocumento;
 use App\Models\Direccion;
 use App\Models\Paises;
 use App\Models\DocumentosEntidad;
+use App\Models\PerfilPuestoTrabajo;
 
 class Empresa extends Model
 {
@@ -57,5 +58,10 @@ class Empresa extends Model
     public function documentoEntidad()
     {
         return $this->belongsTo(DocumentosEntidad::class, 'numDocumento', 'numDocumento');
+    }
+
+    public function perfilesPuestoTrabajo()
+    {
+        return $this->hasMany(PerfilPuestoTrabajo::class, 'numDocumento', 'numDocumento');
     }
 }

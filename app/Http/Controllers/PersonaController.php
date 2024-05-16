@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
 use App\Models\Persona;
 
 class PersonaController extends Controller
@@ -89,6 +91,66 @@ class PersonaController extends Controller
             }
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al buscar persona por correo electrónico. Detalles: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function getCVsByNumDoc()
+    {
+        try {
+            $numDocumento = request('numDocumento');
+            $persona = Persona::findOrFail($numDocumento);
+            $cvs = $persona->CVs;
+            
+            $response = [];
+            foreach ($cvs as $cv) {
+                $experienciasLaborales = $cv->experienciasLaborales;
+                foreach ($experienciasLaborales as $experienciaLaboral) {
+                    // Acciones con $experienciaLaboral
+                }
+                $certificaciones = $cv->certificaciones;
+                foreach ($certificaciones as $certificacion) {
+                    // Acciones con $certificacion
+                }
+                $conocimientosAcademicos = $cv->conocimientosAcademicos;
+                foreach ($conocimientosAcademicos as $conocimientoAcademico) {
+                    // Acciones con $conocimientoAcademico
+                }
+                $habilidadesTecnicas = $cv->habilidadesTecnicas;
+                foreach ($habilidadesTecnicas as $habilidadTecnica) {
+                    // Acciones con $habilidadTecnica
+                }
+                $habilidadesIdiomas = $cv->habilidadesIdiomas;
+                foreach ($habilidadesIdiomas as $habilidadIdioma) {
+                    $habilidadIdioma->categoriaNivel;
+                }
+                $recomendaciones = $cv->recomendaciones;
+                foreach ($recomendaciones as $recomendacion) {
+                    // Acciones con $recomendacion
+                }
+                $logrosLabores = $cv->logrosLabores;
+                foreach ($logrosLabores as $logroLaboral) {
+                    // Acciones con $logroLaboral
+                }
+                $resultadosPruebas = $cv->resultadosPruebas;
+                foreach ($resultadosPruebas as $resultadoPrueba) {
+                    // Acciones con $resultadoPrueba
+                }
+                $participacionEventos = $cv->participacionEventos;
+                foreach ($participacionEventos as $participacionEvento) {
+                    // Acciones con $participacionEvento
+                }
+                $articulosLibros = $cv->articulosLibros;
+                foreach ($articulosLibros as $articuloLibro) {
+                    // Acciones con $articuloLibro
+                }
+
+                $response[] = $cv;
+            }
+            
+            return response()->json($response);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener los CVs de la persona. Detalles: ' . $e->getMessage()], 404);
         }
     }
 
