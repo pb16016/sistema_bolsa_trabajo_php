@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CVs;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class CVsController extends Controller
 {
@@ -15,7 +16,7 @@ class CVsController extends Controller
             $cvs = CVs::all();
             return response()->json($cvs);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener los CVs. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener los CVs. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -27,9 +28,9 @@ class CVsController extends Controller
             return response()->json($cv);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'CV no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'CV no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al buscar el CV. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al buscar el CV. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -50,9 +51,9 @@ class CVsController extends Controller
             return response()->json($cvs);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Solicitudes no encontradas por el número de documento. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Solicitudes no encontradas por el número de documento. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al buscar las solicitudes por el número de documento. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al buscar las solicitudes por el número de documento. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -66,12 +67,12 @@ class CVsController extends Controller
             ]);
 
             $cv = CVs::create($request->all());
-            return response()->json(['message' => 'CV creado exitosamente.', 'data' => $cv], 201);
+            return response()->json(['message' => 'CV creado exitosamente.', 'data' => $cv], Response::HTTP_CREATED);
 
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al crear el CV. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear el CV. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear el CV. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -89,11 +90,11 @@ class CVsController extends Controller
             return response()->json(['message' => 'CV actualizado exitosamente.', 'data' => $cv]);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'CV no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'CV no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al actualizar el CV. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al actualizar el CV. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al actualizar el CV. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -105,9 +106,9 @@ class CVsController extends Controller
             return response()->json(['message' => 'CV eliminado exitosamente.']);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'CV no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'CV no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar el CV. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al eliminar el CV. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

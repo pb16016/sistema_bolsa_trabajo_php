@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\Paises;
 
 class PaisesController extends Controller
@@ -15,7 +16,7 @@ class PaisesController extends Controller
             $paises = Paises::all();
             return response()->json($paises);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener los registros. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener los registros. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -26,7 +27,7 @@ class PaisesController extends Controller
             $pais = Paises::findOrFail($idPais);
             return response()->json($pais);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'País no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'País no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -40,10 +41,10 @@ class PaisesController extends Controller
                 $departments = $pais->departamentos()->get();
                 return response()->json($departments);
             } else {
-                return response()->json(["message" => "No se encontraron departamentos para este país."], 404);
+                return response()->json(["message" => "No se encontraron departamentos para este país."], Response::HTTP_NOT_FOUND);
             }
         } catch (ModelNotFoundException $e) {
-            return response()->json(["message" => "El país no se encontró."], 404);
+            return response()->json(["message" => "El país no se encontró."], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -58,15 +59,15 @@ class PaisesController extends Controller
 
                 $department = $pais->departamentos()->where('codDepartamento', $codDepartamento)->get();
                 if ($department->isEmpty()) {
-                    return response()->json(["message" => "No se encontraron departamentos para el código proporcionado."], 404);
+                    return response()->json(["message" => "No se encontraron departamentos para el código proporcionado."], Response::HTTP_NOT_FOUND);
                 }
 
                 return response()->json($department);
             } else {
-                return response()->json(["message" => "No se encontraron departamentos para este país."], 404);
+                return response()->json(["message" => "No se encontraron departamentos para este país."], Response::HTTP_NOT_FOUND);
             }
         } catch (ModelNotFoundException $e) {
-            return response()->json(["message" => "El registro no se encontró."], 404);
+            return response()->json(["message" => "El registro no se encontró."], Response::HTTP_NOT_FOUND);
         }
     }
 }

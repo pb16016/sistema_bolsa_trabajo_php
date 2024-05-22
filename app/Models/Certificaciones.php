@@ -6,23 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CVs;
 
-class ExperienciasLaborales extends Model
+class Certificaciones extends Model
 {
     use HasFactory;
 
-    protected $table = 'experienciaslaborales';
-    protected $primaryKey = 'idExperienciaLaboral';
+    protected $table = 'certificaciones';
+    protected $primaryKey = 'idCertificacion';
     public $timestamps = false;
     public $incrementing = true;
 
     protected $fillable = [
         'idCurriculum',
-        'periodoInicio',
-        'periodoFin',
-        'funcionesDesempeñadas',
-        'cargoDesempeñado',
-        'nombreOrganizacion',
-        'contactoOrganizacion',
+        'tipoCertificacion',
+        'nombreCertificacion',
+        'codigoCertificacion',
+        'institucionOtorgante',
+        'fechaCertificacion',
         'descripcion',
     ];
 

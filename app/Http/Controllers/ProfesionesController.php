@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\Profesiones;
 
 class ProfesionesController extends Controller
@@ -15,7 +16,7 @@ class ProfesionesController extends Controller
             $profesiones = Profesiones::all();
             return response()->json($profesiones);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener las profesiones. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener las profesiones. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -26,7 +27,7 @@ class ProfesionesController extends Controller
             $profesion->cargo;
             return response()->json($profesion);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Profesión no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['message' => 'Profesión no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -40,11 +41,11 @@ class ProfesionesController extends Controller
 
             $profesion = Profesiones::create($request->all());
 
-            return response()->json(['message' => 'Profesión creada exitosamente.', 'data' => $profesion], 201);
+            return response()->json(['message' => 'Profesión creada exitosamente.', 'data' => $profesion], Response::HTTP_CREATED);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al crear la profesión. Detalles: ' . $e->errors()], 422);
         } catch (QueryException $e) {
-            return response()->json(['error' => 'Error al crear la profesión. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear la profesión. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -61,11 +62,11 @@ class ProfesionesController extends Controller
 
             return response()->json(['message' => 'Profesión actualizada exitosamente.', 'data' => $profesion]);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Profesión no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Profesión no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al actualizar la profesión. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al actualizar la profesión. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al actualizar la profesión. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -77,9 +78,9 @@ class ProfesionesController extends Controller
 
             return response()->json(['message' => 'Profesión eliminada exitosamente.']);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Profesión no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Profesión no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar la profesión. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al eliminar la profesión. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

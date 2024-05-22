@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\SolicitudAspirante;
 
 class SolicitudAspiranteController extends Controller
@@ -15,7 +16,7 @@ class SolicitudAspiranteController extends Controller
             return response()->json($solicitudes);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener las solicitudes. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener las solicitudes. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -29,7 +30,7 @@ class SolicitudAspiranteController extends Controller
             return response()->json($solicitud);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener la solicitud. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener la solicitud. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -44,12 +45,12 @@ class SolicitudAspiranteController extends Controller
             ]);
 
             $solicitud = SolicitudAspirante::create($request->all());
-            return response()->json(['message' => 'Solicitud creada exitosamente.', 'data' => $solicitud], 201);
+            return response()->json(['message' => 'Solicitud creada exitosamente.', 'data' => $solicitud], Response::HTTP_CREATED);
 
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al crear la solicitud. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear la solicitud. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear la solicitud. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -73,7 +74,7 @@ class SolicitudAspiranteController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al actualizar la solicitud. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al actualizar la solicitud. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al actualizar la solicitud. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -88,7 +89,7 @@ class SolicitudAspiranteController extends Controller
             return response()->json(['message' => 'Solicitud eliminada exitosamente.']);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar la solicitud. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al eliminar la solicitud. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -6,27 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CVs;
 
-class ExperienciasLaborales extends Model
+class ArticulosLibros extends Model
 {
     use HasFactory;
 
-    protected $table = 'experienciaslaborales';
-    protected $primaryKey = 'idExperienciaLaboral';
+    protected $table = 'articuloslibros';
+    protected $primaryKey = 'idArticuloLibro';
     public $timestamps = false;
     public $incrementing = true;
 
     protected $fillable = [
         'idCurriculum',
-        'periodoInicio',
-        'periodoFin',
-        'funcionesDesempeñadas',
-        'cargoDesempeñado',
-        'nombreOrganizacion',
-        'contactoOrganizacion',
+        'tituloPublicacion',
+        'lugarPublicacion',
+        'tipoPublicacion',
+        'fechaPublicacion',
+        'edicion',
+        'ISBN',
         'descripcion',
     ];
 
-    // Relación con la entidad CV
     public function cv()
     {
         return $this->belongsTo(CVs::class, 'idCurriculum', 'idCurriculum');

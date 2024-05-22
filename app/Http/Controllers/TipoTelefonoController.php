@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\TipoTelefono;
 
 class TipoTelefonoController extends Controller
@@ -13,7 +14,7 @@ class TipoTelefonoController extends Controller
             $tiposTelefono = TipoTelefono::all();
             return response()->json($tiposTelefono);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Ha ocurrido un error al obtener los tipos de teléfono. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Ha ocurrido un error al obtener los tipos de teléfono. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -23,7 +24,7 @@ class TipoTelefonoController extends Controller
             $tipoTelefono = TipoTelefono::findOrFail($idTipoTelefono);
             return response()->json($tipoTelefono);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Tipo de teléfono no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Tipo de teléfono no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 

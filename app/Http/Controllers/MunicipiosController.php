@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\Municipios;
 
 class MunicipiosController extends Controller
@@ -14,7 +15,7 @@ class MunicipiosController extends Controller
             $municipios = Municipios::all();
             return response()->json($municipios);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener los registros. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener los registros. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -27,7 +28,7 @@ class MunicipiosController extends Controller
 
             return response()->json($municipio);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Municipio no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Municipio no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 }

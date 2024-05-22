@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\RedesSociales;
 
 class RedesSocialesController extends Controller
@@ -14,7 +15,7 @@ class RedesSocialesController extends Controller
             $redesSociales = RedesSociales::all();
         return response()->json($redesSociales);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener las redes sociales. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener las redes sociales. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -28,10 +29,10 @@ class RedesSocialesController extends Controller
             if ($redesSociales) {
                 return response()->json($redesSociales);
             } else {
-                return response()->json(['message' => 'No se encontró las redes sociales para el número de documento proporcionado.'], 404);
+                return response()->json(['message' => 'No se encontró las redes sociales para el número de documento proporcionado.'], Response::HTTP_NOT_FOUND);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener las redes sociales. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener las redes sociales. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -40,9 +41,9 @@ class RedesSocialesController extends Controller
     {
         try {
             $redesSociales = RedesSociales::create($request->all());
-            return response()->json(['message' => 'Redes sociales creada exitosamente.', 'data' => $redesSociales], 201);
+            return response()->json(['message' => 'Redes sociales creada exitosamente.', 'data' => $redesSociales], Response::HTTP_CREATED);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear las redes sociales. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear las redes sociales. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -56,10 +57,10 @@ class RedesSocialesController extends Controller
                 $redesSociales->update($request->all());
                 return response()->json(['message' => 'Redes sociales actualizada exitosamente.', 'data' => $redesSociales]);
             } else {
-                return response()->json(['error' => 'No se encontraron redes sociales para el número de documento proporcionado.'], 404);
+                return response()->json(['error' => 'No se encontraron redes sociales para el número de documento proporcionado.'], Response::HTTP_NOT_FOUND);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al actualizar las redes sociales. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al actualizar las redes sociales. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -73,10 +74,10 @@ class RedesSocialesController extends Controller
                 $redesSociales->delete();
                 return response()->json(['message' => 'Red social eliminada exitosamente.']);
             } else {
-                return response()->json(['error' => 'No se encontró las redes sociales para el número de documento proporcionado.'], 404);
+                return response()->json(['error' => 'No se encontró las redes sociales para el número de documento proporcionado.'], Response::HTTP_NOT_FOUND);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar las redes sociales. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al eliminar las redes sociales. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\OfertaTrabajo;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class OfertaTrabajoController extends Controller
 {
@@ -15,7 +16,7 @@ class OfertaTrabajoController extends Controller
             $ofertas = OfertaTrabajo::all();
             return response()->json($ofertas);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener las ofertas de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener las ofertas de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -41,9 +42,9 @@ class OfertaTrabajoController extends Controller
             return response()->json($oferta);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Oferta de trabajo no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Oferta de trabajo no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al buscar la oferta de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al buscar la oferta de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -54,17 +55,17 @@ class OfertaTrabajoController extends Controller
                 'idEstadoOferta' => 'required|exists:estados,idEstado',
                 'idPerfilPuesto' => 'required|exists:perfilpuestotrabajo,idPerfilPuesto',
                 'fechaPublicacion' => 'required|date',
-                'fechaCierre' => 'required|date',
+                'fechaCierre' => 'required|date|after:fechaPublicacion',
                 'descripcion' => 'nullable|string',
             ]);
 
             $oferta = OfertaTrabajo::create($request->all());
-            return response()->json(['message' => 'Oferta de trabajo creada exitosamente.', 'data' => $oferta], 201);
+            return response()->json(['message' => 'Oferta de trabajo creada exitosamente.', 'data' => $oferta], Response::HTTP_CREATED);
 
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al crear la oferta de trabajo. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear la oferta de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear la oferta de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -75,7 +76,7 @@ class OfertaTrabajoController extends Controller
                 'idEstadoOferta' => 'required|exists:estados,idEstado',
                 'idPerfilPuesto' => 'required|exists:perfilpuestotrabajo,idPerfilPuesto',
                 'fechaPublicacion' => 'required|date',
-                'fechaCierre' => 'required|date',
+                'fechaCierre' => 'required|date|after:fechaPublicacion',
                 'descripcion' => 'nullable|string',
             ]);
 
@@ -84,11 +85,11 @@ class OfertaTrabajoController extends Controller
             return response()->json(['message' => 'Oferta de trabajo actualizada exitosamente.', 'data' => $oferta]);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Oferta de trabajo no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Oferta de trabajo no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al actualizar la oferta de trabajo. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al actualizar la oferta de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al actualizar la oferta de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -100,9 +101,9 @@ class OfertaTrabajoController extends Controller
             return response()->json(['message' => 'Oferta de trabajo eliminada exitosamente.']);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Oferta de trabajo no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Oferta de trabajo no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar la oferta de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al eliminar la oferta de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

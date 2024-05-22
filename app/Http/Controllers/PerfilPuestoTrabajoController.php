@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\PerfilPuestoTrabajo;
 
 class PerfilPuestoTrabajoController extends Controller
@@ -15,7 +16,7 @@ class PerfilPuestoTrabajoController extends Controller
             $perfilesPuesto = PerfilPuestoTrabajo::all();
             return response()->json($perfilesPuesto);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener los perfiles de puesto de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener los perfiles de puesto de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -33,9 +34,9 @@ class PerfilPuestoTrabajoController extends Controller
             }
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Perfil de puesto de trabajo no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Perfil de puesto de trabajo no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al buscar el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al buscar el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -55,12 +56,12 @@ class PerfilPuestoTrabajoController extends Controller
             ]);
 
             $perfilPuesto = PerfilPuestoTrabajo::create($request->all());
-            return response()->json(['message' => 'Perfil de puesto de trabajo creado exitosamente.', 'data' => $perfilPuesto], 201);
+            return response()->json(['message' => 'Perfil de puesto de trabajo creado exitosamente.', 'data' => $perfilPuesto], Response::HTTP_CREATED);
         
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al crear el perfil de puesto de trabajo. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -84,11 +85,11 @@ class PerfilPuestoTrabajoController extends Controller
             return response()->json(['message' => 'Perfil de puesto de trabajo actualizado exitosamente.', 'data' => $perfilPuesto]);
         
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Perfil de puesto de trabajo no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Perfil de puesto de trabajo no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al actualizar el perfil de puesto de trabajo. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al actualizar el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al actualizar el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -100,9 +101,9 @@ class PerfilPuestoTrabajoController extends Controller
             return response()->json(['message' => 'Perfil de puesto de trabajo eliminado exitosamente.']);
 
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Perfil de puesto de trabajo no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Perfil de puesto de trabajo no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al eliminar el perfil de puesto de trabajo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

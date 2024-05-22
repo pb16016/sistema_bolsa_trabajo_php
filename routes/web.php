@@ -23,7 +23,16 @@ use App\Http\Controllers\PerfilPuestoTrabajoController;
 use App\Http\Controllers\OfertaTrabajoController;
 use App\Http\Controllers\CVsController;
 use App\Http\Controllers\SolicitudAspiranteController;
-
+use App\Http\Controllers\ExperienciasLaboralesController;
+use App\Http\Controllers\CertificacionesController;
+use App\Http\Controllers\ConocimientosAcademicosController;
+use App\Http\Controllers\HabilidadesTecnicasController;
+use App\Http\Controllers\HabilidadesIdiomasController;
+use App\Http\Controllers\RecomendacionesController;
+use App\Http\Controllers\LogrosLaboresController;
+use App\Http\Controllers\ResultadoPruebasController;
+use App\Http\Controllers\ParticipacionEventosController;
+use App\Http\Controllers\ArticulosLibrosController;
 
 
 //Views locales
@@ -180,5 +189,74 @@ Route::prefix('api')->group(function () {
     Route::put('/soli_aspirante/{idCurriculum}/{idOfertaLaboral}', [SolicitudAspiranteController::class, 'update']);
     Route::delete('/soli_aspirante/{idCurriculum}/{idOfertaLaboral}', [SolicitudAspiranteController::class, 'destroy']);
 
+    #exp_laborales
+    Route::get('/exp_laborales', [ExperienciasLaboralesController::class, 'getAll']);
+    Route::get('/exp_laborales/{idExperienciaLaboral}', [ExperienciasLaboralesController::class, 'findById']);
+    Route::post('/exp_laborales', [ExperienciasLaboralesController::class, 'store']);
+    Route::put('/exp_laborales/{idExperienciaLaboral}', [ExperienciasLaboralesController::class, 'update']);
+    Route::delete('/exp_laborales/{idExperienciaLaboral}', [ExperienciasLaboralesController::class, 'destroy']);
+
+    #certificaciones
+    Route::get('/certificaciones', [CertificacionesController::class, 'getAll']);
+    Route::get('/certificaciones/{idCertificacion}', [CertificacionesController::class, 'findById']);
+    Route::post('/certificaciones', [CertificacionesController::class, 'store']);
+    Route::put('/certificaciones/{idCertificacion}', [CertificacionesController::class, 'update']);
+    Route::delete('/certificaciones/{idCertificacion}', [CertificacionesController::class, 'destroy']);
+
+    #con_academicos
+    Route::get('/con_academicos', [ConocimientosAcademicosController::class, 'getAll']);
+    Route::get('/con_academicos/{idConocimiento}', [ConocimientosAcademicosController::class, 'findById']);
+    Route::post('/con_academicos', [ConocimientosAcademicosController::class, 'store']);
+    Route::put('/con_academicos/{idConocimiento}', [ConocimientosAcademicosController::class, 'update']);
+    Route::delete('/con_academicos/{idConocimiento}', [ConocimientosAcademicosController::class, 'destroy']);
+
+    #habil_tecnicas
+    Route::get('/habil_tecnicas', [HabilidadesTecnicasController::class, 'getAll']);
+    Route::get('/habil_tecnicas/{idHabilidadTecnica}', [HabilidadesTecnicasController::class, 'findById']);
+    Route::post('/habil_tecnicas', [HabilidadesTecnicasController::class, 'store']);
+    Route::put('/habil_tecnicas/{idHabilidadTecnica}', [HabilidadesTecnicasController::class, 'update']);
+    Route::delete('/habil_tecnicas/{idHabilidadTecnica}', [HabilidadesTecnicasController::class, 'destroy']);
+
+    #habil_idiomas
+    Route::get('/habil_idiomas', [HabilidadesIdiomasController::class, 'getAll']);
+    Route::get('/habil_idiomas/{idHabilidadIdioma}', [HabilidadesIdiomasController::class, 'findById']);
+    Route::post('/habil_idiomas', [HabilidadesIdiomasController::class, 'store']);
+    Route::put('/habil_idiomas/{idHabilidadIdioma}', [HabilidadesIdiomasController::class, 'update']);
+    Route::delete('/habil_idiomas/{idHabilidadIdioma}', [HabilidadesIdiomasController::class, 'destroy']);
+
+    #recomendaciones
+    Route::get('/recomendaciones', [RecomendacionesController::class, 'getAll']);
+    Route::get('/recomendaciones/{idRecomendacion}', [RecomendacionesController::class, 'findById']);
+    Route::post('/recomendaciones', [RecomendacionesController::class, 'store']);
+    Route::put('/recomendaciones/{idRecomendacion}', [RecomendacionesController::class, 'update']);
+    Route::delete('/recomendaciones/{idRecomendacion}', [RecomendacionesController::class, 'destroy']);
+
+    #logros_labores
+    Route::get('/logros_labores', [LogrosLaboresController::class, 'getAll']);
+    Route::get('/logros_labores/{idLogroLabor}', [LogrosLaboresController::class, 'findById']);
+    Route::post('/logros_labores', [LogrosLaboresController::class, 'store']);
+    Route::put('/logros_labores/{idLogroLabor}', [LogrosLaboresController::class, 'update']);
+    Route::delete('/logros_labores/{idLogroLabor}', [LogrosLaboresController::class, 'destroy']);
+
+    #result_pruebas
+    Route::get('/result_pruebas', [ResultadoPruebasController::class, 'getAll']);
+    Route::get('/result_pruebas/{idResultadoPrueba}', [ResultadoPruebasController::class, 'findById']);
+    Route::post('/result_pruebas', [ResultadoPruebasController::class, 'store']);
+    Route::put('/result_pruebas/{idResultadoPrueba}', [ResultadoPruebasController::class, 'update']);
+    Route::delete('/result_pruebas/{idResultadoPrueba}', [ResultadoPruebasController::class, 'destroy']);
+
+    #part_eventos
+    Route::get('/part_eventos', [ParticipacionEventosController::class, 'getAll']);
+    Route::get('/part_eventos/{idEvento}', [ParticipacionEventosController::class, 'findById']);
+    Route::post('/part_eventos', [ParticipacionEventosController::class, 'store']);
+    Route::put('/part_eventos/{idEvento}', [ParticipacionEventosController::class, 'update']);
+    Route::delete('/part_eventos/{idEvento}', [ParticipacionEventosController::class, 'destroy']);
+
+    #arti_libros
+    Route::get('/arti_libros', [ArticulosLibrosController::class, 'getAll']);
+    Route::get('/arti_libros/{idArticuloLibro}', [ArticulosLibrosController::class, 'findById']);
+    Route::post('/arti_libros', [ArticulosLibrosController::class, 'store']);
+    Route::put('/arti_libros/{idArticuloLibro}', [ArticulosLibrosController::class, 'update']);
+    Route::delete('/arti_libros/{idArticuloLibro}', [ArticulosLibrosController::class, 'destroy']);
 
 });

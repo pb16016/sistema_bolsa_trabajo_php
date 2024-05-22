@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\Estados;
 
 class EstadosController extends Controller
@@ -13,7 +14,7 @@ class EstadosController extends Controller
             $estados = Estados::all();
             return response()->json( $estados);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener los estados. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener los estados. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -23,7 +24,7 @@ class EstadosController extends Controller
             $estado = Estados::findOrFail($idEstado);
             return response()->json($estado);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Estado no encontrado. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Estado no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 }

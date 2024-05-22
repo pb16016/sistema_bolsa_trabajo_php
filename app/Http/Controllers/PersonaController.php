@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 use App\Models\Persona;
 
 class PersonaController extends Controller
@@ -15,7 +16,7 @@ class PersonaController extends Controller
             $personas = Persona::all();
             return response()->json($personas);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener las personas. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener las personas. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -43,7 +44,7 @@ class PersonaController extends Controller
                 return response()->json(['message' => 'Persona no encontrada para el número de documento proporcionado.']);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -61,7 +62,7 @@ class PersonaController extends Controller
                 return response()->json(['message' => 'Persona no encontrada para el número de documento proporcionado.']);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -90,7 +91,7 @@ class PersonaController extends Controller
                 return response()->json(['message' => 'Persona no encontrada para el correo electrónico proporcionado.']);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al buscar persona por correo electrónico. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al buscar persona por correo electrónico. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -150,7 +151,7 @@ class PersonaController extends Controller
             return response()->json($response);
 
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener los CVs de la persona. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Error al obtener los CVs de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -172,7 +173,7 @@ class PersonaController extends Controller
                 return response()->json(['message' => 'Telefonos no encontrados para el número de documento proporcionado.']);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener los telefónos de la persona. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Error al obtener los telefónos de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -189,7 +190,7 @@ class PersonaController extends Controller
                 return response()->json(['message' => 'Redes sociales no encontrados para el número de documento proporcionado.']);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener las redes sociales de la persona. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Error al obtener las redes sociales de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -203,10 +204,10 @@ class PersonaController extends Controller
                 $tipoDocumento = $persona->tipoDocumento;
                 return response()->json($tipoDocumento);
             } else {
-                return response()->json(["message" => "No se encontraron tipo de documentos para esta persona."], 404);
+                return response()->json(["message" => "No se encontraron tipo de documentos para esta persona."], Response::HTTP_NOT_FOUND);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener el tipo de documento de la persona. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener el tipo de documento de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -221,10 +222,10 @@ class PersonaController extends Controller
                 return response()->json($estadoCivil);
 
             } else {
-                return response()->json(["message" => "No se encontró un estado civil para esta persona."], 404);
+                return response()->json(["message" => "No se encontró un estado civil para esta persona."], Response::HTTP_NOT_FOUND);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener el estado civil de la persona. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener el estado civil de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -240,10 +241,10 @@ class PersonaController extends Controller
 
                 return response()->json($profesion);
             } else {
-                return response()->json(["message" => "No se encontró profesión para esta persona."], 404);
+                return response()->json(["message" => "No se encontró profesión para esta persona."], Response::HTTP_NOT_FOUND);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener la profesión de la persona. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener la profesión de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -259,10 +260,10 @@ class PersonaController extends Controller
 
                 return response()->json($direccion);
             } else {
-                return response()->json(["message" => "No se encontró una dirección para esta persona."], 404);
+                return response()->json(["message" => "No se encontró una dirección para esta persona."], Response::HTTP_NOT_FOUND);
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener la dirección de la persona. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener la dirección de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -287,11 +288,11 @@ class PersonaController extends Controller
 
             $persona = Persona::create($request->all());
 
-            return response()->json(['message' => 'Persona creada exitosamente.', 'data' => $persona], 201);
+            return response()->json(['message' => 'Persona creada exitosamente.', 'data' => $persona], Response::HTTP_CREATED);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al crear la persona. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al crear la persona. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al crear la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -318,11 +319,11 @@ class PersonaController extends Controller
 
             return response()->json(['message' => 'Persona actualizada exitosamente.', 'data' => $persona]);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Error de validación al actualizar la persona. Detalles: ' . $e->errors()], 422);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al actualizar la persona. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al actualizar la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -334,9 +335,9 @@ class PersonaController extends Controller
 
             return response()->json(['message' => 'Persona eliminada exitosamente.']);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], 404);
+            return response()->json(['error' => 'Persona no encontrada. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al eliminar la persona. Detalles: ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al eliminar la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }
