@@ -31,12 +31,54 @@ class ProfesionesController extends Controller
         }
     }
 
+    public function getCargos()
+    {
+        try {
+            $idProfesion = request('idProfesion');
+            $profesion = Profesiones::findOrFail($idProfesion);
+            
+            if (!is_null($profesion->cargos) && $profesion->cargos->isNotEmpty()) {
+                $cargos = $profesion->cargos()->get();
+                return response()->json($cargos);
+            } else {
+                return response()->json(["message" => "No se encontraron cargos para esta profesion."], Response::HTTP_NOT_FOUND);
+            }
+        } catch (ModelNotFoundException $e) {
+            return response()->json(["message" => "La profesión no se encontró."], Response::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function findCargoByIds()
+    {
+        try {
+            $idProfesion = request('idProfesion');
+            $profesion = Profesiones::findOrFail($idProfesion);
+            
+            if (!is_null($profesion->cargos)) {
+                $cargos = $profesion->cargos;
+                $idCargo = request('idCargo');
+                $cargo = $profesion->cargos()->where('idCargo', $idCargo)->get();
+
+                if (!is_null($cargo)) {
+                    return response()->json($cargo);
+                } else {
+                    return response()->json(["message" => "No se encontró cargo con los id proporcionados."], Response::HTTP_NOT_FOUND);
+                }
+                
+            } else {
+                return response()->json(["message" => "No se encontraron cargos para esta profesión."], Response::HTTP_NOT_FOUND);
+            }
+        } catch (ModelNotFoundException $e) {
+            return response()->json(["message" => "La profesión no se encontró."], Response::HTTP_NOT_FOUND);
+        }
+    }
+
     public function store(Request $request)
     {
         try {
             $request->validate([
                 'nombreProfesion' => 'required|max:50',
-                'idCargo' => 'required|exists:cargos,idCargo',
+                'descripcion' => 'nullable|string|max:250',
             ]);
 
             $profesion = Profesiones::create($request->all());
@@ -54,7 +96,7 @@ class ProfesionesController extends Controller
         try {
             $request->validate([
                 'nombreProfesion' => 'required|max:50',
-                'idCargo' => 'required|exists:cargos,idCargo',
+                'descripcion' => 'nullable|string|max:250',
             ]);
 
             $profesion = Profesiones::findOrFail($idProfesion);

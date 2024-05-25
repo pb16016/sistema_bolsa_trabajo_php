@@ -229,15 +229,34 @@ class PersonaController extends Controller
         }
     }
 
+    public function getCargo()
+    {
+        try {
+            $numDocumento = request('numDocumento');
+            $persona = Persona::findOrFail($numDocumento);
+            
+            if (!is_null($persona->cargo)) {
+                $cargo = $persona->cargo;
+                $persona->cargo->profesion;
+
+                return response()->json($cargo);
+            } else {
+                return response()->json(["message" => "No se encontró cargo para esta persona."], Response::HTTP_NOT_FOUND);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener el cargo de la persona. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function getProfesion()
     {
         try {
             $numDocumento = request('numDocumento');
             $persona = Persona::findOrFail($numDocumento);
             
-            if (!is_null($persona->profesion)) {
-                $profesion = $persona->profesion;
-                $persona->profesion->cargo;
+            if (!is_null($persona->cargo)) {
+                $cargo = $persona->cargo;
+                $profesion = $persona->cargo->profesion;
 
                 return response()->json($profesion);
             } else {
@@ -282,7 +301,7 @@ class PersonaController extends Controller
                 'NIT' => 'required|max:20',
                 'codEstadoCivil' => 'required|exists:estadoscivil,codEstadoCivil',
                 'idTipoDocumento' => 'required|exists:tipodocumento,idTipoDocumento',
-                'idProfesion' => 'required|exists:profesiones,idProfesion',
+                'idCargo' => 'required|exists:cargos,idCargo',
                 'idDireccion' => 'required|exists:direccion,idDireccion',
             ]);
 
@@ -310,7 +329,7 @@ class PersonaController extends Controller
                 'NIT' => 'required|max:20',
                 'codEstadoCivil' => 'required|exists:estadoscivil,codEstadoCivil',
                 'idTipoDocumento' => 'required|exists:tipodocumento,idTipoDocumento',
-                'idProfesion' => 'required|exists:profesiones,idProfesion',
+                'idCargo' => 'required|exists:cargos,idCargo',
                 'idDireccion' => 'required|exists:direccion,idDireccion',
             ]);
 

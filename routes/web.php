@@ -79,15 +79,16 @@ Route::prefix('api')->group(function () {
     #cargos
     Route::get('/cargos', [CargosController::class, 'getAll']);
     Route::get('/cargos/{idCargo}', [CargosController::class, 'findByid']);
+    Route::get('/cargo/profesion/ofertas_trab', [CargosController::class, 'getOfertasTrabajoByProfesion']);
     Route::post('/cargos', [CargosController::class, 'store']);
     Route::put('/cargos/{idCargo}', [CargosController::class, 'update']);
     Route::delete('/cargos/{idCargo}', [CargosController::class, 'destroy']);
-    Route::get('/cargo/profesiones', [CargosController::class, 'getProfesiones']);
-    Route::get('/cargo/profesion', [CargosController::class, 'findProfesionById']);
 
     #profesiones
     Route::get('/profesiones', [ProfesionesController::class, 'getAll']);
     Route::get('/profesiones/{idProfesion}', [ProfesionesController::class, 'findByid']);
+    Route::get('/profesion/cargos', [ProfesionesController::class, 'getCargos']);
+    Route::get('/profesion/cargo', [ProfesionesController::class, 'findCargoByIds']);
     Route::post('/profesiones', [ProfesionesController::class, 'store']);
     Route::put('/profesiones/{idProfesion}', [ProfesionesController::class, 'update']);
     Route::delete('/profesiones/{idProfesion}', [ProfesionesController::class, 'destroy']);
@@ -115,6 +116,7 @@ Route::prefix('api')->group(function () {
     Route::get('/persona/email', [PersonaController::class, 'findEmailByNumDoc']);
     Route::get('/persona/tipo_documento', [PersonaController::class, 'getTipoDocumento']);
     Route::get('/persona/estado_civil', [PersonaController::class, 'getEstadoCivil']);
+    Route::get('/persona/cargo', [PersonaController::class, 'getCargo']);
     Route::get('/persona/profesion', [PersonaController::class, 'getProfesion']);
     Route::get('/persona/direccion', [PersonaController::class, 'getDireccion']);
     Route::get('/persona/telefonos', [PersonaController::class, 'getTelefonosByNumDoc']);
@@ -134,6 +136,7 @@ Route::prefix('api')->group(function () {
     Route::get('/empresa/direccion', [EmpresaController::class, 'getDireccion']);
     Route::get('/empresa/telefonos', [EmpresaController::class, 'getTelefonosByNumDoc']);
     Route::get('/empresa/perfiles_puestos', [EmpresaController::class, 'getPerfilesPuestosByNumDoc']);
+    Route::get('/empresa/ofertas_trabajo', [EmpresaController::class, 'getOfertasEmpresaByNombre']);
     Route::post('/empresas', [EmpresaController::class, 'store']);
     Route::put('/empresas/{numDocumento}', [EmpresaController::class, 'update']);
     Route::delete('/empresas/{numDocumento}', [EmpresaController::class, 'destroy']);

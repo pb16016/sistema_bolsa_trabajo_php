@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cargos;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\Cargos;
+use App\Models\ExperienciaRequerida;
 
 class CargosController extends Controller
 {
@@ -20,10 +21,10 @@ class CargosController extends Controller
         }
     }
 
-    public function findById($id)
+    public function findById($idCargo)
     {
         try {
-            $cargo = Cargos::findOrFail($id);
+            $cargo = Cargos::findOrFail($idCargo);
             return response()->json($cargo);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Cargo no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
@@ -32,12 +33,50 @@ class CargosController extends Controller
         }
     }
 
+    public function getOfertasTrabajoByProfesion()
+    {
+        try {
+            $idProfesion = request('idProfesion');
+            $cargos = Cargos::where('idProfesion', $idProfesion)->get();
+
+            if ($cargos && !is_null($cargos)) {
+                $ofertas = [];
+                foreach ($cargos as $cargo) {
+                    $idCargo = $cargo->idCargo;
+
+                    $expsRequeridas = ExperienciaRequerida::where('idCargo', $idCargo)->get();
+            
+                    foreach ($expsRequeridas as $expRequerida) {
+                        $ofertasTrabajo = $expRequerida->perfilPuestoTrabajo->ofertasTrabajo;
+                        
+                        foreach ($ofertasTrabajo as $ofertaTrabajo) {
+                            $ofertas[] = $ofertaTrabajo;
+                            $experienciasReq = $ofertaTrabajo->perfilPuesto->experienciasRequeridas;
+                            $ofertaTrabajo->estadoOferta;
+
+                            foreach ($experienciasReq as $experienciaReq) {
+                                $experienciaReq->cargo;
+                            }
+                        }
+                    }
+                }
+
+                return response()->json($ofertas);
+            } else {
+                return response()->json(['message' => 'Profesion no encontrada para los cargos relacionados.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al buscar ofertas de trabajo por profesion. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function store(Request $request)
     {
         try {
             $request->validate([
                 'nombreCargo' => 'required|max:50',
-                'descripcion' => 'max:250',
+                'idProfesion' => 'required|exists:profesiones,idProfesion',
+                'descripcion' => 'nullable|string|max:250',
             ]);
 
             $cargo = Cargos::create($request->all());
@@ -53,7 +92,8 @@ class CargosController extends Controller
         try {
             $request->validate([
                 'nombreCargo' => 'required|max:50',
-                'descripcion' => 'max:250',
+                'idProfesion' => 'required|exists:profesiones,idProfesion',
+                'descripcion' => 'nullable|string|max:250',
             ]);
 
             $cargo = Cargos::findOrFail($idCargo);
@@ -78,46 +118,6 @@ class CargosController extends Controller
             return response()->json(['error' => 'Cargo no encontrado. Detalles: ' . $e->getMessage()], Response::HTTP_NOT_FOUND);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al eliminar el cargo. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public function getProfesiones()
-    {
-        try {
-            $idCargo = request('idCargo');
-            $cargo = Cargos::findOrFail($idCargo);
-            
-            if (!is_null($cargo->profesiones) && $cargo->profesiones->isNotEmpty()) {
-                $profesiones = $cargo->profesiones()->get();
-                return response()->json($profesiones);
-            } else {
-                return response()->json(["message" => "No se encontraron municipios para este departamento."], Response::HTTP_NOT_FOUND);
-            }
-        } catch (ModelNotFoundException $e) {
-            return response()->json(["message" => "La profesión no se encontró."], Response::HTTP_NOT_FOUND);
-        }
-    }
-
-    public function findProfesionById()
-    {
-        try {
-            $idCargo = request('idCargo');
-            $cargo = Cargos::findOrFail($idCargo);
-            
-            if (!is_null($cargo->profesiones) && $cargo->profesiones->isNotEmpty()) {
-                $idProfesion = request('idProfesion');
-                $profesion = $cargo->profesiones()->where('idProfesion', $idProfesion)->get();
-
-                if ($profesion->isEmpty()) {
-                    return response()->json(["message" => "No se encontró profesión para el id proporcionado."], Response::HTTP_NOT_FOUND);
-                }
-                
-                return response()->json($profesion);
-            } else {
-                return response()->json(["message" => "No se encontraron profesiones para este cargo."], Response::HTTP_NOT_FOUND);
-            }
-        } catch (ModelNotFoundException $e) {
-            return response()->json(["message" => "El Cargo no se encontró."], Response::HTTP_NOT_FOUND);
         }
     }
 }

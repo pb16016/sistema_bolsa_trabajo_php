@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TipoDocumento;
-use App\Models\Profesiones;
+use App\Models\Cargos;
 use App\Models\EstadoCivil;
 use App\Models\Direccion;
 use App\Models\DocumentosEntidad;
@@ -36,7 +36,7 @@ class Persona extends Model
         'NUP',
         'codEstadoCivil',
         'idTipoDocumento',
-        'idProfesion',
+        'idCargo',
         'idDireccion',
     ];
 
@@ -54,9 +54,9 @@ class Persona extends Model
         return $this->belongsTo(EstadoCivil::class, 'codEstadoCivil', 'codEstadoCivil');
     }
 
-    public function profesion()
+    public function cargo()
     {
-        return $this->belongsTo(Profesiones::class, 'idProfesion', 'idProfesion');
+        return $this->belongsTo(Cargos::class, 'idCargo', 'idCargo');
     }
 
     public function direccion()

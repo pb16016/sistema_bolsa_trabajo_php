@@ -170,6 +170,40 @@ class EmpresaController extends Controller
         }
     }
 
+    public function getOfertasEmpresaByNombre()
+    {
+        try {
+            $nombreEmpresa = request('nombreEmpresa');
+            $empresa = Empresa::where('nombreComercialEmpresa', 'like', '%'.$nombreEmpresa.'%')
+                        ->orWhere('nombreLegalEmpresa', 'like', '%'.$nombreEmpresa.'%')
+                        ->first();
+
+            if ($empresa) {
+                $perfiles = $empresa->perfilesPuestoTrabajo;
+
+                $ofertas = [];
+                foreach ($perfiles as $perfilPuesto) {
+                    $ofertasTrabajo = $perfilPuesto->ofertasTrabajo;
+                    $ofertas[] = $ofertasTrabajo;
+
+                    foreach ($ofertasTrabajo as $ofertaTrabajo) {
+                        $experienciasReq = $ofertaTrabajo->perfilPuesto->experienciasRequeridas;
+                        $ofertaTrabajo->estadoOferta;
+                        foreach ($experienciasReq as $experienciaReq) {
+                            $experienciaReq->cargo;
+                        }
+                    }
+                }
+
+                return response()->json($ofertas);
+            } else {
+                return response()->json(['message' => 'Empresa no encontrada para el nombre proporcionado.']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al buscar empresa por nombre o ofertas de trabajo de la empresa. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function getTelefonosByNumDoc()
     {
         try {

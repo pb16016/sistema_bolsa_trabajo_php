@@ -46,8 +46,8 @@ class PerfilPuestoTrabajo extends Model
         return $this->hasMany(ExperienciaRequerida::class, 'idExperienciaRequerida', 'idExperienciaRequerida');
     }
 
-    public function ofertaTrabajo()
+    public function ofertasTrabajo()
     {
-        return $this->belongsTo(OfertaTrabajo::class, 'idPerfilPuesto', 'idPerfilPuesto');
+        return $this->hasMany(OfertaTrabajo::class, 'idPerfilPuesto', 'idPerfilPuesto');
     }
 }

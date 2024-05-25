@@ -14,19 +14,15 @@ class Profesiones extends Model
     protected $primaryKey = 'idProfesion';
     protected $fillable = [
         'nombreProfesion',
-        'idCargo',
+        'descripcion',
     ];
 
     public $timestamps = false;
     public $incrementing = true;
 
-    public function cargo()
+    public function cargos()
     {
-        return $this->belongsTo(Cargos::class, 'idCargo', 'idCargo');
+        return $this->hasMany(Cargos::class, 'idProfesion', 'idProfesion');
     }
     
-    public function persona()
-    {
-        return $this->belongsTo(Persona::class, 'idProfesion', 'idProfesion');
-    }
 }

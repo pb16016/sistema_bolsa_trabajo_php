@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Profesiones;
 
 class Cargos extends Model
 {
@@ -12,14 +13,20 @@ class Cargos extends Model
     protected $primaryKey = 'idCargo';
     protected $fillable = [
         'nombreCargo',
+        'idProfesion',
         'descripcion',
     ];
 
     public $timestamps = false;
     public $incrementing = true;
 
-    public function profesiones()
+    public function profesion()
     {
-        return $this->hasMany(Profesiones::class, 'idCargo', 'idCargo');
+        return $this->belongsTo(Profesiones::class, 'idProfesion', 'idProfesion');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo(Persona::class, 'idCargo', 'idCargo');
     }
 }
