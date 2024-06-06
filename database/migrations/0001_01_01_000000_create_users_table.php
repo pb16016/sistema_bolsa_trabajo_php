@@ -13,12 +13,18 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('username', 25);
+            $table->string('email', 100)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('state_user_id'); // Cambiado a unsignedBigInteger
+            $table->integer('failed_attempts'); // Cambiado a unsignedBigInteger
+            $table->string('description')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            // Definir la clave foránea
+            $table->foreign('state_user_id')->references('idEstadoUsuario')->on('estadousuario')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

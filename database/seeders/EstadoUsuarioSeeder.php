@@ -38,6 +38,10 @@ class EstadoUsuarioSeeder extends Seeder
                 'estadoUsuario' => 'Eliminado',
                 'descripcion' => 'El usuario ha sido eliminado del sistema.'
             ],
+            [
+                'estadoUsuario' => 'Bloqueado',
+                'descripcion' => 'El usuario ha sido bloqueado en el sistema.'
+            ],
         ]);
     }
 }

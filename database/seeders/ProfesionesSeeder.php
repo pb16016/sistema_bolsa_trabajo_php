@@ -14,6 +14,10 @@ class ProfesionesSeeder extends Seeder
     public function run(): void
     {
         DB::table('profesiones')->insert([
+            ['nombreProfesion' => 'Ingeniero en Sistemas Informáticos', 'descripcion' => 'Profesional Ingeniero en Sistemas Informáticos.'],
+            ['nombreProfesion' => 'Ingeniero de desarrollo', 'descripcion' => 'Profesional responsable de la gestión y administración de proyectos de desarrollo.'],
+            ['nombreProfesion' => 'Arquitecto de Software', 'descripcion' => 'Profesional responsable de la gestión y diseño de la arquitectura de software.'],
+            ['nombreProfesion' => 'Ingeniero Quimico', 'descripcion' => 'Profesional Ingeniero Quimico.'],
             ['nombreProfesion' => 'Gerente', 'descripcion' => 'Profesional responsable de la gestión y administración de una empresa o departamento.'],
             ['nombreProfesion' => 'Financiero', 'descripcion' => 'Profesional encargado de la gestión de recursos financieros.'],
             ['nombreProfesion' => 'Marketero', 'descripcion' => 'Profesional especializado en marketing y estrategias comerciales.'],

@@ -41,7 +41,7 @@ class HabilidadesTecnicasController extends Controller
             ]);
 
             $habilidadTecnica = HabilidadesTecnicas::create($request->all());
-            return response()->json(['message' => 'Habilidad técnica creada exitosamente.', 'data' => $habilidadTecnica], Response::HTTP_CREATED);
+            return response()->json(['message' => 'Habilidad técnica creada exitosamente.', 'data' => $habilidadTecnica]);
 
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al crear la habilidad técnica. Detalles: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

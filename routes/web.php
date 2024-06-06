@@ -34,6 +34,9 @@ use App\Http\Controllers\ResultadoPruebasController;
 use App\Http\Controllers\ParticipacionEventosController;
 use App\Http\Controllers\ArticulosLibrosController;
 
+use App\Http\Controllers\RolesUsuarioController;
+use App\Http\Controllers\UserController;
+
 
 //Views locales
 
@@ -261,5 +264,30 @@ Route::prefix('api')->group(function () {
     Route::post('/arti_libros', [ArticulosLibrosController::class, 'store']);
     Route::put('/arti_libros/{idArticuloLibro}', [ArticulosLibrosController::class, 'update']);
     Route::delete('/arti_libros/{idArticuloLibro}', [ArticulosLibrosController::class, 'destroy']);
+
+
+    #Autenticación y seguridad
+
+    #roles
+    Route::get('/roles', [RolesUsuarioController::class, 'getAll']);
+    Route::get('/roles/{idRol}', [RolesUsuarioController::class, 'findById']);
+    Route::post('/roles', [RolesUsuarioController::class, 'store']);
+    Route::put('/roles/{idRol}', [RolesUsuarioController::class, 'update']);
+    Route::delete('/roles/{idRol}', [RolesUsuarioController::class, 'destroy']);
+
+    #user
+    Route::post('/user/register', [UserController::class, 'register']);
+    Route::put('/user/{id}', [UserController::class, 'update']);
+    Route::put('/user/{id}/deactivate', [UserController::class, 'deactivate']);
+    Route::put('/user/{id}/activate', [UserController::class, 'activate']);
+    Route::put('/user/{id}/suspend', [UserController::class, 'suspend']);
+    Route::put('/user/{id}/block', [UserController::class, 'block']);
+    Route::post('/login', [UserController::class, 'login']);
+    Route::post('/logout', [UserController::class, 'logout']);
+
+    //password
+    Route::post('/forgot-password', [UserController::class, 'sendResetLink']);
+    Route::post('/change-password', [UserController::class, 'changePassword']);
+
 
 });

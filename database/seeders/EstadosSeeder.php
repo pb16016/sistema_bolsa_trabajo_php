@@ -43,8 +43,8 @@ class EstadosSeeder extends Seeder
                 'descripcion' => 'Estado finalizado para el registro.'
             ],
             [
-                'nombreEstado' => 'En Proceso',
-                'descripcion' => 'Estado de en proceso para el registro.'
+                'nombreEstado' => 'Solicitado',
+                'descripcion' => 'Estado solicitado para el registro.'
             ],
             [
                 'nombreEstado' => 'Contratado',

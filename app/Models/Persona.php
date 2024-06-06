@@ -41,7 +41,9 @@ class Persona extends Model
     ];
 
     protected $casts = [
-        'numDocumento' => 'string'
+        'numDocumento' => 'string',
+        'codEstadoCivil' => 'string',
+        'idTipoDocumento' => 'string',
     ];
 
     public function tipoDocumento()
