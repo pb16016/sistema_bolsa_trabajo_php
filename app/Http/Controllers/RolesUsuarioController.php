@@ -8,14 +8,14 @@ use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Roles;
+use App\Models\RolesUsuario;
 
-class RolesController extends Controller
+class RolesUsuarioController extends Controller
 {
     public function getAll()
     {
         try {
-            $roles = Roles::all();
+            $roles = RolesUsuario::all();
             return response()->json($roles, Response::HTTP_OK);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Error al obtener los roles'], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -25,7 +25,7 @@ class RolesController extends Controller
     public function findById($idRol)
     {
         try {
-            $role = Roles::findOrFail($idRol);
+            $role = RolesUsuario::findOrFail($idRol);
             return response()->json($role, Response::HTTP_OK);
 
         } catch (ModelNotFoundException $e) {
@@ -39,15 +39,15 @@ class RolesController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:50',
-                'guard_name' => 'nullable|string|max:250',
+                'nombreRol' => 'required|string|max:25',
+                'descripcionRol' => 'nullable|string|max:250',
             ]);
 
             if ($validator->fails()) {
                 return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
             }
 
-            $role = Roles::create($request->all());
+            $role = RolesUsuario::create($request->all());
             return response()->json(['message' => 'Rol creado exitosamente.', 'data' => $role], Response::HTTP_CREATED);
        
         } catch (\Exception $e) {
@@ -59,15 +59,15 @@ class RolesController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:50',
-                'guard_name' => 'nullable|string|max:250',
+                'nombreRol' => 'required|string|max:25',
+                'descripcionRol' => 'nullable|string|max:250',
             ]);
 
             if ($validator->fails()) {
                 return response()->json($validator->errors(), Response::HTTP_BAD_REQUEST);
             }
 
-            $role = Roles::findOrFail($idRol);
+            $role = RolesUsuario::findOrFail($idRol);
             $role->update($request->all());
             return response()->json(['message' => 'Rol actualizado exitosamente.', 'data' => $role], Response::HTTP_OK);
         
@@ -81,7 +81,7 @@ class RolesController extends Controller
     public function destroy($idRol)
     {
         try {
-            $role = Roles::findOrFail($idRol);
+            $role = RolesUsuario::findOrFail($idRol);
             $role->delete();
             return response()->json(['message' => 'Rol eliminado exitosamente'], Response::HTTP_OK);
         

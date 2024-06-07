@@ -34,7 +34,8 @@ use App\Http\Controllers\ResultadoPruebasController;
 use App\Http\Controllers\ParticipacionEventosController;
 use App\Http\Controllers\ArticulosLibrosController;
 
-use App\Http\Controllers\RolesUsuarioController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\UserController;
 
 
@@ -269,11 +270,11 @@ Route::prefix('api')->group(function () {
     #Autenticación y seguridad
 
     #roles
-    Route::get('/roles', [RolesUsuarioController::class, 'getAll']);
-    Route::get('/roles/{idRol}', [RolesUsuarioController::class, 'findById']);
-    Route::post('/roles', [RolesUsuarioController::class, 'store']);
-    Route::put('/roles/{idRol}', [RolesUsuarioController::class, 'update']);
-    Route::delete('/roles/{idRol}', [RolesUsuarioController::class, 'destroy']);
+    Route::get('/roles', [RolesController::class, 'getAll']);
+    Route::get('/roles/{idRol}', [RolesController::class, 'findById']);
+    Route::post('/roles', [RolesController::class, 'store']);
+    Route::put('/roles/{idRol}', [RolesController::class, 'update']);
+    Route::delete('/roles/{idRol}', [RolesController::class, 'destroy']);
 
     #user
     Route::post('/user/register', [UserController::class, 'register']);
@@ -284,10 +285,17 @@ Route::prefix('api')->group(function () {
     Route::put('/user/{id}/block', [UserController::class, 'block']);
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/logout', [UserController::class, 'logout']);
+    
 
     //password
     Route::post('/forgot-password', [UserController::class, 'sendResetLink']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
 
+    #roleuser
+    Route::get('/roleuser', [RoleUserController::class, 'getAll']);
+    Route::get('/roleuser/{idRol}', [RoleUserController::class, 'findById']);
+    Route::post('/roleuser', [RoleUserController::class, 'store']);
+    Route::put('/roleuser/{idRol}', [RoleUserController::class, 'update']);
+    Route::delete('/roleuser/{idRol}', [RoleUserController::class, 'destroy']);
 
 });

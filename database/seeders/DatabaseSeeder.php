@@ -20,6 +20,8 @@ use Database\Seeders\TipoTelefonoSeeder;
 use Database\Seeders\TipoEntidadUsuarioSeeder;
 use Database\Seeders\EstadosSeeder;
 use Database\Seeders\EstadoUsuarioSeeder;
+use Database\Seeders\RolesSeeder;
+use Database\Seeders\RolesUsuarioSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,13 +33,13 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'username' => 'Test',
-            'email' => 'test@ues.com',
+            'username' => 'TestUser',
+            'email' => 'pb16016@ues.edu.sv',
             'state_user_id' => 1,
             'failed_attempts' => 0,
         ]);
-        /*
-        $this->call(TruncateTablesSeeder::class);
+        
+        //$this->call(TruncateTablesSeeder::class);
         $this->call(EstadosCivilesSeeder::class);
         $this->call(TipoDocumentosSeeder::class);
 
@@ -52,6 +54,10 @@ class DatabaseSeeder extends Seeder
         $this->call(TipoTelefonoSeeder::class);
         $this->call(TipoEntidadUsuarioSeeder::class);
         $this->call(EstadosSeeder::class);
-        $this->call(EstadoUsuarioSeeder::class);*/
+        $this->call(EstadoUsuarioSeeder::class);
+
+        $this->call(RolesUsuarioSeeder::class);
+        $this->call(RolesSeeder::class);
+
     }
 }
