@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,6 +31,11 @@
 </head>
 <body>
     <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-right mb-2">
+                <button class="btn btn-primary" id="verSolicitudesBtn">Ver sus Solicitudes de Trabajo</button>
+            </div>
+        </div>
         <h1 class="text-center mb-4">Ofertas Laborales</h1>
         <div id="ofertas-list" class="row">
             <!-- Aquí se insertarán las ofertas laborales -->
@@ -64,6 +67,53 @@
 
     <script>
         $(document).ready(function() {
+            $('#verSolicitudesBtn').click(function() {
+                $.ajax({
+                    url: '/api/cvs/solicitudes',
+                    method: 'GET',
+                    success: function(data) {
+                        $('#solicitudesModal').modal('show');
+                        let modalBody = $('#solicitudes-details');
+                        modalBody.empty();
+                        data.forEach(function(cv) {
+                            let cvHTML = `
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <strong>Número de Documento:</strong> ${cv.numDocumento}
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">Solicitudes de Trabajo</h5>
+                            `;
+                            cv.solicitudes_cv.forEach(function(solicitud) {
+                                cvHTML += `
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <strong>Fecha de Solicitud:</strong> ${solicitud.fechaSolicitud}
+                                        </div>
+                                        <div class="card-body">
+                                            <p><strong>Estado de la Solicitud:</strong> ${solicitud.estado_solicitud.nombreEstado}</p>
+                                            <p><strong>Oferta de Trabajo:</strong></p>
+                                            <p><strong>Nombre del Puesto:</strong> ${solicitud.oferta_trabajo.perfil_puesto.nombrePuesto}</p>
+                                            <p><strong>Rango Salarial:</strong> ${solicitud.oferta_trabajo.perfil_puesto.rangoSalarial}</p>
+                                            <p><strong>Modalidad de Trabajo:</strong> ${solicitud.oferta_trabajo.perfil_puesto.modalidadTrabajo}</p>
+                                            <p><strong>Ubicación Geográfica:</strong> ${solicitud.oferta_trabajo.perfil_puesto.ubicacionGeografica}</p>
+                                            <p><strong>Beneficios:</strong> ${solicitud.oferta_trabajo.perfil_puesto.beneficios}</p>
+                                            <p><strong>Grado Académico Mínimo:</strong> ${solicitud.oferta_trabajo.perfil_puesto.gradoAcademicoMinimo}</p>
+                                            <p><strong>Requisitos Adicionales:</strong> ${solicitud.oferta_trabajo.perfil_puesto.requisitosAdicionales}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            });
+                            cvHTML += `</div></div>`;
+                            modalBody.append(cvHTML);
+                        });
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+
             $(document).on('click', '.applyBtn', function() {
                 let ofertaId = $(this).data('id');
                 $('#selectCVModal').modal('show');
@@ -91,8 +141,8 @@
                     }
                 });
 
-            // Manejar clic en el botón Aplicar dentro del modal
-            $('#applyCVBtn').off().on('click', function() {
+                // Manejar clic en el botón Aplicar dentro del modal
+                $('#applyCVBtn').off().on('click', function() {
                     let selectedCV = $('input[name=cvRadio]:checked').val();
                     if (selectedCV) {
                         // Enviar solicitud POST para crear la solicitud de aspirante
@@ -153,6 +203,25 @@
             });
         });
     </script>
+
+    <!-- Modal para mostrar las solicitudes de trabajo -->
+    <div class="modal fade" id="solicitudesModal" tabindex="-1" role="dialog" aria-labelledby="solicitudesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="solicitudesModalLabel">Solicitudes de Trabajo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="solicitudes-details">
+                <!-- Aquí se insertarán las solicitudes de trabajo -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
-
