@@ -22,6 +22,7 @@ class OfertaTrabajoController extends Controller
 
             $ofertas = OfertaTrabajo::where('idEstadoOferta', '!=', $idEstadoCerrado)
                                     ->where('idEstadoOferta', '!=', $idEstadoInactivo)
+                                    ->with('perfilPuesto')
                                     ->get();
 
             return response()->json($ofertas);

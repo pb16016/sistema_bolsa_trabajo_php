@@ -303,3 +303,4 @@ Route::prefix('api')->group(function () {
 use App\Http\Controllers\FrontendController;
 
 Route::get('/ofertas-laborales', [FrontendController::class, 'ofertas']);
+Route::get('/oferta-cvs', [FrontendController::class, 'showAllCvs']);
