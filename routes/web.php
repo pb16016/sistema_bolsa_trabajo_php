@@ -299,3 +299,7 @@ Route::prefix('api')->group(function () {
     Route::delete('/roleuser/{idRol}', [RoleUserController::class, 'destroy']);
 
 });
+
+use App\Http\Controllers\FrontendController;
+
+Route::get('/ofertas-laborales', [FrontendController::class, 'ofertas']);
