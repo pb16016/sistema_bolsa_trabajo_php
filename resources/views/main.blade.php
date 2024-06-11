@@ -122,17 +122,17 @@
     <script>
         function redirectToPersonaView() {
             var emailUser = document.getElementById('email').textContent;
-            var url = 'http://localhost:8000/persona-view?email=' + encodeURIComponent(emailUser);
+            var url = 'http://bdd-frontend.up.railway.app/persona-view?email=' + encodeURIComponent(emailUser);
             window.location.href = url;
         }
 
         function redirectToCvs() {
             var emailUser = document.getElementById('email').textContent;
-            var url = 'http://localhost:8000/cvs?email=' + encodeURIComponent(emailUser);
+            var url = 'http://bdd-frontend.up.railway.app/cvs?email=' + encodeURIComponent(emailUser);
             window.location.href = url;
         }
         function redirectTologout() {
-            var url = 'http://localhost:8000/login';
+            var url = 'http://bdd-frontend.up.railway.app/login';
             window.location.href = url;
         }
     </script>

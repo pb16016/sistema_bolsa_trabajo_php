@@ -110,7 +110,7 @@
                         var emailUser = response.data.email;
                         alert(response.message);
                         // Redireccionar a la página principal o a otra página después del inicio de sesión
-                        window.location.href = 'http://localhost:8000/main?email=' + encodeURIComponent(emailUser); // Redirecciona a la vista de persona
+                        window.location.href = 'http://bdd-frontend.up.railway.app/main?email=' + encodeURIComponent(emailUser); // Redirecciona a la vista de persona
                     },
                     error: function(xhr, status, error) {
                         var errorMessage = xhr.responseJSON.error;
