@@ -27,7 +27,7 @@ class PersonaController extends Controller
             $persona = Persona::findOrFail($numDocumento);
             $persona->tipoDocumento;
             $persona->estadoCivil;
-            $persona->profesion->cargo;
+            $persona->cargo->profesion;
             $persona->direccion->municipio->departamento->pais;
             $telefonos = $persona->documentoEntidad->telefonos;
             
@@ -75,7 +75,7 @@ class PersonaController extends Controller
             if ($persona) {
                 $persona->tipoDocumento;
                 $persona->estadoCivil;
-                $persona->profesion->cargo;
+                $persona->cargo->profesion;
                 $persona->direccion->municipio->departamento->pais;
                 $telefonos = $persona->documentoEntidad->telefonos;
             

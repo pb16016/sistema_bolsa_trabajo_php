@@ -31,13 +31,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        User::factory()->create([
-            'username' => 'TestUser',
-            'email' => 'pb16016@ues.edu.sv',
-            'state_user_id' => 1,
-            'failed_attempts' => 0,
-        ]);
         
         //$this->call(TruncateTablesSeeder::class);
         $this->call(EstadosCivilesSeeder::class);
@@ -58,6 +51,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RolesUsuarioSeeder::class);
         $this->call(RolesSeeder::class);
-
+        User::factory()->create([
+            'username' => 'TestUser',
+            'email' => 'pb16016@ues.edu.sv',
+            'state_user_id' => 1,
+            'failed_attempts' => 0,
+        ]);
     }
 }

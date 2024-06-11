@@ -194,7 +194,7 @@ class UserController extends Controller
                 $user->failed_attempts = 0;
                 $user->save();
 
-                return response()->json(['message' => 'Inicio de sesión exitoso'], Response::HTTP_OK);
+                return response()->json(['message' => 'Inicio de sesión exitoso', 'data' => ['email' => $user->email]], Response::HTTP_OK);
             } else {
                 // Incrementar intentos fallidos
                 $user->failed_attempts += 1;
@@ -236,7 +236,7 @@ class UserController extends Controller
         $user->save();
 
         // Enviar el correo con la contraseña temporal
-        Mail::raw("Your temporary password is: $temporaryPassword", function ($message) use ($user) {
+        Mail::raw("Your temporary password is: $temporaryPassword Se recomienda cambiar la contraseña al ingresar de nuevo, en configuración del usuario. También podria seguir el siguiente enlace: https://bdd-frontend.web.app/change-password", function ($message) use ($user) {
             $message->to($user->email);
             $message->subject('Password Reset for the "Bolsa de trabajo" system');
         });

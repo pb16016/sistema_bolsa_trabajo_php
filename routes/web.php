@@ -40,9 +40,9 @@ use App\Http\Controllers\UserController;
 
 
 //Views locales
-
+// Redirigir la ruta principal a /login
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
 
@@ -309,4 +309,9 @@ Route::get('/oferta-cvs', [FrontendController::class, 'showAllCvs']);
 Route::get('/empresas', [FrontendController::class, 'empresas']);
 
 Route::get('/login', [FrontendController::class, 'login']);
-Route::get('/persona', [FrontendController::class, 'persona']);
+Route::get('/registro', [FrontendController::class, 'registrar']);
+Route::get('/persona-view', [FrontendController::class, 'personaView']);
+
+Route::get('/main', [FrontendController::class, 'main']);
+Route::get('/cvs', [FrontendController::class, 'cvs']);
+Route::get('/change-password', [FrontendController::class, 'changePassword']);
