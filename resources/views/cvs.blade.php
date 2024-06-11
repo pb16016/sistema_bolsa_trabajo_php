@@ -109,7 +109,7 @@
     <script>
         function redirectToCvs() {
             var emailUser = document.getElementById('email').textContent;
-            var url = 'http://bdd-frontend.up.railway.app/api/persona/by_email?emailPersona=' + encodeURIComponent(emailUser);
+            var url = 'https://bdd-frontend.up.railway.app/api/persona/by_email?emailPersona=' + encodeURIComponent(emailUser);
             
             fetch(url)
                 .then(response => response.json())
@@ -118,7 +118,7 @@
                         var cvInfo = document.getElementById('cvInfo');
                         cvInfo.innerHTML = '<p>' + data.message + '</p>';
                     } else {
-                        var urlCvs = 'http://bdd-frontend.up.railway.app/api/persona/cvs?numDocumento=' + encodeURIComponent(data.numDocumento);
+                        var urlCvs = 'https://bdd-frontend.up.railway.app/api/persona/cvs?numDocumento=' + encodeURIComponent(data.numDocumento);
                         fetch(urlCvs)
                             .then(response => response.json())
                             .then(cvs => {
