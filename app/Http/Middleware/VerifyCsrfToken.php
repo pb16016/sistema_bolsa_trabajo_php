@@ -16,6 +16,7 @@ class VerifyCsrfToken extends Middleware
         'api/tipo_documento',
         'api/tipo_documento/*',
         'api/*',
-        '/*'
+        'login',
+        'registro'
     ];
 }
