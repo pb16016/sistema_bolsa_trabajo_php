@@ -42,6 +42,7 @@
         <div class="card">
             <h2 class="card-title">Iniciar Sesión</h2>
             <form id="loginForm">
+                @csrf
                 <div class="form-group">
                     <label for="login">Correo Electrónico o Nombre de Usuario</label>
                     <input type="text" class="form-control" id="login" name="login" required>
