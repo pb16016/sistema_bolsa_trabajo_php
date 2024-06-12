@@ -42,7 +42,7 @@
         <div class="card">
             <h2 class="card-title">Iniciar Sesión</h2>
             <form id="loginForm">
-                @csrf
+                @csrf <!-- Incluye el token CSRF -->
                 <div class="form-group">
                     <label for="login">Correo Electrónico o Nombre de Usuario</label>
                     <input type="text" class="form-control" id="login" name="login" required>
@@ -80,6 +80,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="resetPasswordForm">
+                        @csrf <!-- Incluye el token CSRF -->
                         <div class="form-group">
                             <label for="resetEmail">Correo Electrónico</label>
                             <input type="email" class="form-control" id="resetEmail" name="email" required>
@@ -95,6 +96,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Configura los headers de jQuery para incluir el token CSRF
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $('#loginForm').submit(function(event) {
                 event.preventDefault();
 
@@ -119,7 +127,6 @@
                     }
                 });
             });
-
 
             $('#resetPasswordForm').submit(function(event) {
                 event.preventDefault();
