@@ -308,10 +308,10 @@ Route::get('/oferta-cvs', [FrontendController::class, 'showAllCvs']);
 
 Route::get('/empresas', [FrontendController::class, 'empresas']);
 
-Route::get('/login', [FrontendController::class, 'login']);
-Route::get('/registro', [FrontendController::class, 'registrar']);
+Route::post('/login', [FrontendController::class, 'login']);
+Route::post('/registro', [FrontendController::class, 'registrar']);
 Route::get('/persona-view', [FrontendController::class, 'personaView']);
 
 Route::get('/main', [FrontendController::class, 'main']);
 Route::get('/cvs', [FrontendController::class, 'cvs']);
-Route::get('/change-password', [FrontendController::class, 'changePassword']);
+Route::post('/change-password', [FrontendController::class, 'changePassword']);
