@@ -14,8 +14,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'stripe/*',
             'http://localhost:8000/api/*',
-            'https://bdd-frontend.up.railway.app/api/*',
-            'https://bdd-frontend.up.railway.app/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

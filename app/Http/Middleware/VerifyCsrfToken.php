@@ -14,9 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         // Aquí agrega las rutas que deseas excluir de la verificación CSRF
         'api/tipo_documento',
-        'api/tipo_documento/*',
-        'api/*',
-        'login',
-        'registro'
+        'api/tipo_documento/*'
     ];
 }

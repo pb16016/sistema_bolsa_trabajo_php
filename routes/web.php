@@ -309,6 +309,8 @@ Route::get('/oferta-cvs', [FrontendController::class, 'showAllCvs']);
 Route::get('/empresas', [FrontendController::class, 'empresas']);
 
 Route::get('/login', [FrontendController::class, 'login']);
+Route::post('/login', [UserController::class, 'login']);
+
 Route::get('/registro', [FrontendController::class, 'registrar']);
 Route::post('/persona-view', [FrontendController::class, 'personaView']);
 
