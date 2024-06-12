@@ -203,7 +203,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            $(document).ready(function() {
             // Configura los headers de jQuery para incluir el token CSRF
             $.ajaxSetup({
                 headers: {
