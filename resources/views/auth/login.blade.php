@@ -57,7 +57,7 @@
             <br/>
             <label>__________________________________________</label>
             <label>Username de prueba: TestUser</label>
-            <label>Contraseña simple de prueba: Password1*</label>
+            <label>Contraseña simple de prueba: password</label>
             <label>Email para usuario de prueba: kyrna.quintanilla@ues.edu.sv</label>
             <br/>
             <div class="text-center">

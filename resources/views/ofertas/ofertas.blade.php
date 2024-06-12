@@ -28,6 +28,7 @@
             margin-top: 50px;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <div class="container">
@@ -46,6 +47,7 @@
     <div class="modal fade" id="selectCVModal" tabindex="-1" role="dialog" aria-labelledby="selectCVModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+                @csrf <!-- Incluye el token CSRF -->
                 <div class="modal-header">
                     <h5 class="modal-title" id="selectCVModalLabel">Seleccionar CV</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -67,6 +69,13 @@
 
     <script>
         $(document).ready(function() {
+            // Configura los headers de jQuery para incluir el token CSRF
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $('#verSolicitudesBtn').click(function() {
                 $.ajax({
                     url: '/api/cvs/solicitudes',

@@ -48,6 +48,7 @@
             padding-bottom: 5px;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <div class="container register-container">
@@ -72,6 +73,7 @@
                 </li>
             </ul>
             <form id="registerForm">
+                @csrf <!-- Incluye el token CSRF -->
                 <div class="tab-content" id="registerTabsContent">
                     <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
                         <div class="form-group">
@@ -201,6 +203,13 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
+            $(document).ready(function() {
+            // Configura los headers de jQuery para incluir el token CSRF
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
             // Cargar tipos de documento
             $.ajax({

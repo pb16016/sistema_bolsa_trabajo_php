@@ -312,8 +312,8 @@ Route::get('/login', [FrontendController::class, 'login']);
 Route::post('/login', [UserController::class, 'login']);
 
 Route::get('/registro', [FrontendController::class, 'registrar']);
-Route::post('/persona-view', [FrontendController::class, 'personaView']);
+Route::get('/persona-view', [FrontendController::class, 'personaView']);
 
-Route::post('/main', [FrontendController::class, 'main']);
-Route::post('/cvs', [FrontendController::class, 'cvs']);
+Route::get('/main', [FrontendController::class, 'main']);
+Route::get('/cvs', [FrontendController::class, 'cvs']);
 Route::get('/change-password', [FrontendController::class, 'changePassword']);
